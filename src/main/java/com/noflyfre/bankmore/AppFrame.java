@@ -1,18 +1,22 @@
 package com.noflyfre.bankmore;
 
-import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.Format;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.time.LocalDate;
-import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import java.util.Random;
@@ -21,6 +25,7 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -28,22 +33,34 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PiePlot;
-import org.jfree.data.general.DefaultPieDataset;
+
+import com.formdev.flatlaf.intellijthemes.FlatArcIJTheme;
+import com.noflyfre.bankmore.action_listeners.AddActionListener;
+import com.noflyfre.bankmore.action_listeners.DeleteActionListener;
+import com.noflyfre.bankmore.action_listeners.ExportActionListener;
+import com.noflyfre.bankmore.action_listeners.LoadActionListener;
+import com.noflyfre.bankmore.action_listeners.ModActionListener;
+import com.noflyfre.bankmore.action_listeners.SaveActionListener;
+import com.noflyfre.bankmore.action_listeners.SearchActionListener;
 
 /**
  * Classe che definisce il frame della GUI.
  */
 @SuppressWarnings("checkstyle:magicnumber")
 public class AppFrame extends JFrame implements ActionListener {
+    private Bilancio budgetCaricato = null;
+
     private final Font btnFont = new Font("Arial", Font.PLAIN, 20);
     private final Font h1Font = new Font("Arial", Font.BOLD, 40);
     private final Font h2Font = new Font("Arial", Font.BOLD, 25);
-    private final Dimension btnDimension = new Dimension(150, 40);
-    private final Dimension frameMinSize = new Dimension(400, 300);
+    private final Dimension btnDimension = new Dimension(120, 40);
+    private final Dimension frameMinSize = new Dimension(850, 700);
 
     private JButton delBtn = new JButton("Elimina");
     private JButton addBtn = new JButton("Aggiungi");
@@ -71,7 +88,7 @@ public class AppFrame extends JFrame implements ActionListener {
      * grafici.
      */
     public AppFrame(Bilancio myBudget) {
-        FlatLightLaf.setup();
+        FlatArcIJTheme.setup();
         setTitle("BankMore");
         generaTransazioni(myBudget, formatter);
         initComponents(myBudget);
@@ -88,9 +105,11 @@ public class AppFrame extends JFrame implements ActionListener {
      * @param myBudget Oggetto di tipo Bilancio passato alla GUI per la
      *                 rappresentazione dei dati.
      */
-    private void initComponents(Bilancio myBudget) {
-        MyTableModel model = new MyTableModel(myBudget.getTransazioni());
-        JTable tableBudget = new JTable(model);
+    private void initComponents(Bilancio Budget) {
+        final Bilancio myBudget = Budget;
+
+        MyTableModel budgetTableModel = new MyTableModel(myBudget.getTransazioni());
+        JTable tableBudget = new JTable(budgetTableModel);
 
         JTextField searchInput = new JTextField(20); // da finire, inserire testo precompilato
 
@@ -142,7 +161,7 @@ public class AppFrame extends JFrame implements ActionListener {
         bilancioValue.setText(String.format("%.2f", myBudget.totaleBilancio()) + "€");
 
         /* Creazione del grafico */
-        DefaultPieDataset dataset = new DefaultPieDataset();
+        SerializablePieDataset dataset = new SerializablePieDataset();
         dataset.setValue("Entrate", myBudget.totaleEntrate());
         dataset.setValue("Uscite", myBudget.totaleUscite());
         JFreeChart chart = ChartFactory.createPieChart("Titolo del grafico", dataset, true, true, false);
@@ -161,78 +180,23 @@ public class AppFrame extends JFrame implements ActionListener {
         /* Modifiche dei pulsanti e dei componenti */
         addBtn.setPreferredSize(btnDimension);
         addBtn.setFont(btnFont);
-        addBtn.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                int result = JOptionPane.showConfirmDialog(
-                        null,
-                        addPanel,
-                        "Nuova transazione",
-                        JOptionPane.OK_CANCEL_OPTION,
-                        JOptionPane.PLAIN_MESSAGE);
-                if (result == JOptionPane.OK_OPTION) {
-                    int importo = Integer.parseInt(importoField.getText());
-                    LocalDate data = LocalDate.parse(dataField.getText(), formatter);
-                    String descrizione = descrizioneField.getText();
-                    if (importo > 0) {
-                        myBudget.addTransazione(new Entrata(data, descrizione, importo));
-                    } else {
-                        myBudget.addTransazione(new Uscita(data, descrizione, importo));
-                    }
-                    model.fireTableDataChanged();
-                    importoField.setText("");
-                    dataField.setText(dataAttuale);
-                    descrizioneField.setText("");
-                    dataset.setValue("Entrate", myBudget.totaleEntrate());
-                    dataset.setValue("Uscite", myBudget.totaleUscite());
-                    bilancioValue.setText(String.format("%.2f", myBudget.totaleBilancio()) + "€");
-                }
-            }
-        });
+        AddActionListener addBtnListener = new AddActionListener(importoField, dataField, descrizioneField,
+                myBudget, budgetTableModel, dataAttuale,
+                addPanel, formatter, dataset, bilancioValue);
+        addBtn.addActionListener(addBtnListener);
 
         delBtn.setPreferredSize(btnDimension);
         delBtn.setFont(btnFont);
-        delBtn.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                int selectedRow = tableBudget.getRowCount() - tableBudget.getSelectedRow() - 1;
-                myBudget.delTransazione(myBudget.getTransazioni().get(selectedRow));
-                model.fireTableDataChanged();
-                dataset.setValue("Entrate", myBudget.totaleEntrate());
-                dataset.setValue("Uscite", myBudget.totaleUscite());
-                bilancioValue.setText(String.format("%.2f", myBudget.totaleBilancio()) + "€");
-            }
-        });
+        DeleteActionListener delBtnListener = new DeleteActionListener(tableBudget, myBudget, budgetTableModel,
+                dataset, bilancioValue);
+        delBtn.addActionListener(delBtnListener);
+
         modBtn.setPreferredSize(btnDimension);
         modBtn.setFont(btnFont);
-        modBtn.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                importoField.setText(Objects.toString(tableBudget.getValueAt(tableBudget.getSelectedRow(), 1)).replaceAll("[^0-9.,]","").replaceAll(",","."));
-                dataField.setText(Objects.toString(tableBudget.getValueAt(tableBudget.getSelectedRow(), 0)));
-                descrizioneField.setText(Objects.toString(tableBudget.getValueAt(tableBudget.getSelectedRow(), 2)));
-                int result = JOptionPane.showConfirmDialog(
-                        null,
-                        addPanel,
-                        "Modifica transazione",
-                        JOptionPane.OK_CANCEL_OPTION,
-                        JOptionPane.PLAIN_MESSAGE);
-                if (result == JOptionPane.OK_OPTION) {
-                    double importo = Double.parseDouble(importoField.getText());
-                    LocalDate data = LocalDate.parse(dataField.getText(), formatter);
-                    String descrizione = descrizioneField.getText();
-                    int selectedRow = tableBudget.getRowCount() - tableBudget.getSelectedRow() - 1;
-                    if (importo > 0) {
-                        myBudget.updateTransazione(selectedRow,
-                                new Entrata(data, descrizione, importo));
-                    } else {
-                        myBudget.updateTransazione(selectedRow,
-                                new Uscita(data, descrizione, importo));
-                    }
-                    model.fireTableDataChanged();
-                    dataset.setValue("Entrate", myBudget.totaleEntrate());
-                    dataset.setValue("Uscite", myBudget.totaleUscite());
-                    bilancioValue.setText(String.format("%.2f", myBudget.totaleBilancio()) + "€");
-                }
-            }
-        });
+        ModActionListener modBtnListener = new ModActionListener(tableBudget, importoField, dataField,
+                descrizioneField, addPanel, formatter, myBudget,
+                budgetTableModel, dataset, bilancioValue);
+        modBtn.addActionListener(modBtnListener);
 
         periodChooser.setPreferredSize(btnDimension);
         periodChooser.setFont(btnFont);
@@ -240,53 +204,35 @@ public class AppFrame extends JFrame implements ActionListener {
 
         saveBtn.setPreferredSize(btnDimension);
         saveBtn.setFont(btnFont);
+        SaveActionListener saveBtnListener = new SaveActionListener(myBudget);
+        saveBtn.addActionListener(saveBtnListener);
+
         loadBtn.setPreferredSize(btnDimension);
         loadBtn.setFont(btnFont);
+        LoadActionListener loadBtnListener = new LoadActionListener(myBudget, budgetTableModel, dataset,
+                bilancioValue);
+        loadBtn.addActionListener(loadBtnListener);
+
         expBtn.setPreferredSize(btnDimension);
         expBtn.setFont(btnFont);
+        ExportActionListener expBtnListener = new ExportActionListener(myBudget);
+        expBtn.addActionListener(expBtnListener);
+
         printBtn.setPreferredSize(btnDimension);
         printBtn.setFont(btnFont);
 
         searchInput.setMaximumSize(new Dimension(550, 100));
         searchBtn.setPreferredSize(btnDimension);
         searchBtn.setFont(btnFont);
-        searchBtn.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                String searchText = searchInput.getText();
-                if (!lastSearchText.equals(searchText)) {
-                    searchRowIndex = -1;
+        SearchActionListener searchBtnListener = new SearchActionListener(searchInput, lastSearchText, searchRowIndex,
+                tableBudget);
+        searchBtn.addActionListener(searchBtnListener);
+        searchInput.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    searchBtn.doClick();
                 }
-                if (searchRowIndex == tableBudget.getRowCount() - 1) {
-                    JOptionPane.showMessageDialog(null, "Non ci sono più corrispondenze da mostrare.");
-                    searchRowIndex = -1; 
-                }
-                if (searchRowIndex == -1) {
-                    for (int row = 0; row < tableBudget.getRowCount(); row++) {
-                        System.out.println("Actual Row: " + row);
-                        if (iteraRigaTabella(tableBudget, searchText, row)) {
-                            break;
-                        } else if (!iteraRigaTabella(tableBudget, searchText, row)
-                                && row == tableBudget.getRowCount() - 1) {
-                            JOptionPane.showMessageDialog(null, "Non è stata trovata alcuna corrispondenza.");
-                            searchRowIndex = -1;
-                        }
-                    }
-                } else if (searchRowIndex != -1) {
-                    for (int row = searchRowIndex + 1; row < tableBudget.getRowCount(); row++) {
-                        System.out.println("Actual Row: " + row);
-                        if (iteraRigaTabella(tableBudget, searchText, row)) {
-                            break;
-                        } else if (!iteraRigaTabella(tableBudget, searchText, row)) {
-                            JOptionPane.showMessageDialog(null, "Non ci sono più corrispondenze da mostrare.");
-                            searchRowIndex = -1;
-                        }
-                    }
-                }
-                lastSearchText = searchText;
-                System.out.println("GetRowCount: " + tableBudget.getRowCount());
-                System.out.println("Last text: " + lastSearchText);
-                System.out.println("searchText: " + searchText);
-                System.out.println("IndexSearchRow: " + searchRowIndex + "\n");
             }
         });
 
@@ -341,21 +287,6 @@ public class AppFrame extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         // TODO Auto-generated method stub
 
-    }
-
-    private boolean iteraRigaTabella(JTable tableBudget, String searchText, int row) {
-        for (int column = 0; column < tableBudget.getColumnCount(); column++) {
-            Object cellValue = tableBudget.getValueAt(row, column);
-            if (cellValue != null && cellValue.toString().toLowerCase().contains(searchText)) {
-                tableBudget.setRowSelectionInterval(row, row);
-                tableBudget.setColumnSelectionInterval(column, column);
-                Rectangle cellRect = tableBudget.getCellRect(row, 0, true);
-                tableBudget.scrollRectToVisible(cellRect);
-                searchRowIndex = row;
-                return true;
-            }
-        }
-        return false;
     }
 
     public void generaTransazioni(Bilancio myBudget, DateTimeFormatter formatter) {

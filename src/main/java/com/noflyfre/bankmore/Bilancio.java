@@ -1,5 +1,6 @@
 package com.noflyfre.bankmore;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -10,7 +11,7 @@ import java.util.List;
  * Crea la logica che sta dietro al bilancio, con tutti i metodi per la gestione
  * delle transazioni.
  */
-public class Bilancio {
+public class Bilancio implements Serializable {
 
     private List<VoceBilancio> transazioni;
 

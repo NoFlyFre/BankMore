@@ -1,0 +1,7 @@
+TODO:
+- [] implementare scelta intervallo data
+- [x] implementare salvataggio
+- [x] implementare caricamento
+- [] implementare esportazione
+- [] implementare stampa
+- [] implementare totale in fondo alla tabella

@@ -1,17 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <checkstyle version="8.45.1">
 <file name="C:\Users\fraca\OneDrive - Università degli Studi di Modena e Reggio Emilia\UNI\Informatica\3 anno\1 semestre\OOP\bankmore\src\main\java\com\noflyfre\bankmore\AppFrame.java">
+<error line="16" column="1" severity="error" message="Wrong order for &apos;java.awt.event.KeyAdapter&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="29" column="8" severity="error" message="Unused import - javax.swing.table.DefaultTableModel." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+<error line="31" column="1" severity="error" message="Extra separation in import group before &apos;org.jfree.chart.ChartFactory&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="87" severity="error" message="Line has trailing spaces." source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineCheck"/>
+<error line="91" column="5" severity="error" message="Method initComponents length is 257 lines (max allowed is 150)." source="com.puppycrawl.tools.checkstyle.checks.sizes.MethodLengthCheck"/>
+<error line="97" column="28" severity="error" message="&apos;{&apos; is followed by whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.NoWhitespaceAfterCheck"/>
+<error line="370" column="5" severity="error" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
+<error line="370" column="72" severity="error" message="&apos;formatter&apos; hides a field." source="com.puppycrawl.tools.checkstyle.checks.coding.HiddenFieldCheck"/>
 </file>
 <file name="C:\Users\fraca\OneDrive - Università degli Studi di Modena e Reggio Emilia\UNI\Informatica\3 anno\1 semestre\OOP\bankmore\src\main\java\com\noflyfre\bankmore\BankmoreApp.java">
+<error line="12" column="5" severity="error" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
+<error line="15" column="11" severity="error" message="Catching &apos;Exception&apos; is not allowed." source="com.puppycrawl.tools.checkstyle.checks.coding.IllegalCatchCheck"/>
 </file>
 <file name="C:\Users\fraca\OneDrive - Università degli Studi di Modena e Reggio Emilia\UNI\Informatica\3 anno\1 semestre\OOP\bankmore\src\main\java\com\noflyfre\bankmore\Bilancio.java">
 </file>
 <file name="C:\Users\fraca\OneDrive - Università degli Studi di Modena e Reggio Emilia\UNI\Informatica\3 anno\1 semestre\OOP\bankmore\src\main\java\com\noflyfre\bankmore\Entrata.java">
 </file>
 <file name="C:\Users\fraca\OneDrive - Università degli Studi di Modena e Reggio Emilia\UNI\Informatica\3 anno\1 semestre\OOP\bankmore\src\main\java\com\noflyfre\bankmore\MyTableModel.java">
+<error line="4" column="8" severity="error" message="Unused import - java.util.Collection." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+<error line="5" column="8" severity="error" message="Unused import - java.util.Collections." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
 </file>
 <file name="C:\Users\fraca\OneDrive - Università degli Studi di Modena e Reggio Emilia\UNI\Informatica\3 anno\1 semestre\OOP\bankmore\src\main\java\com\noflyfre\bankmore\Uscita.java">
-</file>
-<file name="C:\Users\fraca\OneDrive - Università degli Studi di Modena e Reggio Emilia\UNI\Informatica\3 anno\1 semestre\OOP\bankmore\src\main\java\com\noflyfre\bankmore\VoceBilancio.java">
 </file>
 </checkstyle>

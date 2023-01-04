@@ -1,12 +1,13 @@
 package com.noflyfre.bankmore;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 /**
  * Classe astratta che definisce la Voce del bilancio.
  * Definisce la voce del bilancio, in particolare la data e la descrizione.
  */
-public abstract class VoceBilancio {
+public abstract class VoceBilancio implements Serializable{
     private LocalDate data;
     private String descrizione;
 
