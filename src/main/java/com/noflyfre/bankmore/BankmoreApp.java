@@ -8,7 +8,7 @@ import javax.swing.UIManager;
 public final class BankmoreApp {
     private BankmoreApp() {
     }
-
+    //cali ti amo
     public static void main(String[] args) {
         try {
             UIManager.setLookAndFeel("com.formdev.flatlaf.intellijthemes.FlatArcIJTheme");
