@@ -4,8 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 /**
- * Classe che definisce l'oggetto Uscita.
- * Definisce la voce Uscita, che estende la classe astratta VoceBilancio.
+ * Classe che definisce l'oggetto Uscita. Definisce la voce Uscita, che estende la classe astratta VoceBilancio.
  */
 public class Uscita extends VoceBilancio implements Serializable {
 

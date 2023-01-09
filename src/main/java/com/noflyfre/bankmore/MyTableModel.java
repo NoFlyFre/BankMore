@@ -1,8 +1,8 @@
 package com.noflyfre.bankmore;
 
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Collection;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
@@ -11,20 +11,35 @@ import javax.swing.table.AbstractTableModel;
  */
 @SuppressWarnings("checkstyle:magicnumber")
 public class MyTableModel extends AbstractTableModel {
-    // definire le etichette per le colonne
     private String[] columnLabels = {"Data", "Importo", "Descrizione"};
 
     private List<VoceBilancio> dati;
+    private List<VoceBilancio> originalData;
 
-    public MyTableModel(List<VoceBilancio> dati) {
+    public MyTableModel(Bilancio myBudget) {
+        dati = myBudget.getTransazioni();
+        originalData = myBudget.getTransazioni();
+    }
+
+    public void setDati(List<VoceBilancio> dati) {
         this.dati = dati;
     }
 
-    // implementare i metodi del modello di tabella
+    public List<VoceBilancio> getDati() {
+        return dati;
+    }
+
+    public List<VoceBilancio> getOriginalData() {
+        return originalData;
+    }
+
+    public void setOriginalData(List<VoceBilancio> originalData) {
+        this.originalData = originalData;
+    }
+
     @Override
     public int getRowCount() {
-        // il numero di righe corrisponde al numero di elementi nell'ArrayList
-        return dati.size();
+        return dati.size() + 1;
     }
 
     @Override
@@ -39,25 +54,87 @@ public class MyTableModel extends AbstractTableModel {
         return columnLabels[column];
     }
 
+    /**
+     * Metodo che ritorna il totale di tutte le transazioni.
+     * @return totale della somma delle transazioni, formattato in maniera corretta
+     */
+    public String getTotale() {
+        double totale = 0;
+        for (VoceBilancio voce : dati) {
+            if (voce.getClass() == Uscita.class) {
+                totale -= voce.getAmount();
+            } else {
+                totale += voce.getAmount();
+            }
+        }
+        if (totale >= 0) {
+            return "+" + String.format("%.2f", totale) + "€";
+        }
+        return String.format("%.2f", totale) + "€";
+    }
+
     @Override
     public Object getValueAt(int row, int column) {
-        VoceBilancio voce = dati.get(dati.size() - row - 1);
         Object value = null;
-
-        if (column == 0) {
-            // restituire la data della voce
-            value = voce.getData().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-        } else if (column == 2) {
-            // restituire la descrizione della voce
-            value = voce.getDescrizione();
-        } else if (column == 1) {
-            // restituire l'importo della voce
-            if (voce.getClass() == Uscita.class) {
-                value = "- €" + String.format("%.2f", voce.getAmount());
-            } else {
-                value = "+ €" + String.format("%.2f", voce.getAmount());
+        if (row == dati.size()) {
+            switch (column) {
+                case 0:
+                    value = "Totale";
+                    break;
+                case 1:
+                    value = getTotale();
+                    break;
+                case 2:
+                    value = "Entrate - Uscite";
+                    break;
+                default:
+                    break;
+            }
+        } else {
+            VoceBilancio voce = dati.get(dati.size() - row - 1);
+            switch (column) {
+                case 0:
+                    value = voce.getData().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                    break;
+                case 1:
+                    if (voce.getClass() == Uscita.class) {
+                        value = "-" + String.format("%.2f", voce.getAmount()) + "€";
+                    } else {
+                        value = "+" + String.format("%.2f", voce.getAmount()) + "€";
+                    }
+                    break;
+                case 2:
+                    value = voce.getDescrizione();
+                    break;
+                default:
+                    break;
             }
         }
         return value;
+    }
+
+    /**
+     * Metodo che filtra le voci della tabella.
+     * Filtra le voci della tabella in base a due date, una di inizio e una di fine.
+     * Verranno mostrate solo le voci la cui data si trova nell'intervallo
+     * specificato, estremi compresi.
+     * @param dataInizio
+     * @param dataFine
+     */
+    public void filtraVoci(LocalDate dataInizio, LocalDate dataFine) {
+        List<VoceBilancio> vociDaMostrare = new ArrayList<>();
+        for (VoceBilancio voce : dati) {
+            if (voce.getData().isAfter(dataInizio) && voce.getData().isBefore(dataFine)
+                    || voce.getData().equals(dataInizio) || voce.getData().equals(dataFine)) {
+                vociDaMostrare.add(voce);
+            }
+        }
+        dati = vociDaMostrare;
+        fireTableDataChanged();
+    }
+
+    public void resetTableData() {
+        dati = originalData;
+        fireTableDataChanged();
     }
 }

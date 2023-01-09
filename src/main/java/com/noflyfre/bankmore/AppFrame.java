@@ -5,57 +5,46 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Objects;
+import java.util.Date;
 import java.util.Random;
-
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.filechooser.FileNameExtensionFilter;
-
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PiePlot;
-
+import com.toedter.calendar.JDateChooser;
 import com.formdev.flatlaf.intellijthemes.FlatArcIJTheme;
-import com.noflyfre.bankmore.action_listeners.AddActionListener;
-import com.noflyfre.bankmore.action_listeners.DeleteActionListener;
-import com.noflyfre.bankmore.action_listeners.ExportActionListener;
-import com.noflyfre.bankmore.action_listeners.LoadActionListener;
-import com.noflyfre.bankmore.action_listeners.ModActionListener;
-import com.noflyfre.bankmore.action_listeners.SaveActionListener;
-import com.noflyfre.bankmore.action_listeners.SearchActionListener;
+import com.noflyfre.bankmore.actionlisteners.AddActionListener;
+import com.noflyfre.bankmore.actionlisteners.DeleteActionListener;
+import com.noflyfre.bankmore.actionlisteners.ExportActionListener;
+import com.noflyfre.bankmore.actionlisteners.FilterActionListener;
+import com.noflyfre.bankmore.actionlisteners.LoadActionListener;
+import com.noflyfre.bankmore.actionlisteners.ModActionListener;
+import com.noflyfre.bankmore.actionlisteners.PeriodActionListener;
+import com.noflyfre.bankmore.actionlisteners.PrintActionListener;
+import com.noflyfre.bankmore.actionlisteners.SaveActionListener;
+import com.noflyfre.bankmore.actionlisteners.SearchActionListener;
 
 /**
  * Classe che definisce il frame della GUI.
  */
 @SuppressWarnings("checkstyle:magicnumber")
-public class AppFrame extends JFrame implements ActionListener {
-    private Bilancio budgetCaricato = null;
-
+public class AppFrame extends JFrame {
     private final Font btnFont = new Font("Arial", Font.PLAIN, 20);
     private final Font h1Font = new Font("Arial", Font.BOLD, 40);
     private final Font h2Font = new Font("Arial", Font.BOLD, 25);
@@ -70,6 +59,7 @@ public class AppFrame extends JFrame implements ActionListener {
     private JButton expBtn = new JButton("Esporta");
     private JButton printBtn = new JButton("Stampa");
     private JButton searchBtn = new JButton("Cerca");
+    private JButton filterBtn = new JButton("Filtra");
     private JPanel addPanel = new JPanel();
 
     private JTextField importoField = new JTextField(20);
@@ -77,14 +67,19 @@ public class AppFrame extends JFrame implements ActionListener {
     private JTextField descrizioneField = new JTextField(20);
 
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-    private String dataAttuale = LocalDate.now().format(formatter);
+    private String dataAttualeString = LocalDate.now().format(formatter);
+
+    private JDateChooser dataInizioChooser = new JDateChooser();
+    private JDateChooser dataFineChooser = new JDateChooser();
 
     private int searchRowIndex = -1;
     private String lastSearchText = "";
+    private boolean filter = false;
+
+    private AutoSave autoSaver;
 
     /**
-     * Costruttore della classe AppFrame.
-     * Inizializza le proprietà principali del frame ed inizializza i componenti
+     * Costruttore della classe AppFrame. Inizializza le proprietà principali del frame ed inizializza i componenti
      * grafici.
      */
     public AppFrame(Bilancio myBudget) {
@@ -93,6 +88,8 @@ public class AppFrame extends JFrame implements ActionListener {
         generaTransazioni(myBudget, formatter);
         initComponents(myBudget);
         myBudget.stampaBilancio();
+        autoSaver = new AutoSave(myBudget);
+        autoSaver.start();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setMinimumSize(frameMinSize);
@@ -101,20 +98,23 @@ public class AppFrame extends JFrame implements ActionListener {
 
     /**
      * Metodo che inizializza e posiziona i componenti nella GUI.
-     * 
-     * @param myBudget Oggetto di tipo Bilancio passato alla GUI per la
-     *                 rappresentazione dei dati.
+     *
+     * @param myBudget
+     *            Oggetto di tipo Bilancio passato alla GUI per la rappresentazione dei dati.
      */
-    private void initComponents(Bilancio Budget) {
-        final Bilancio myBudget = Budget;
+    private void initComponents(Bilancio budget) {
+        final Bilancio myBudget = budget;
 
-        MyTableModel budgetTableModel = new MyTableModel(myBudget.getTransazioni());
+        MyTableModel budgetTableModel = new MyTableModel(myBudget);
         JTable tableBudget = new JTable(budgetTableModel);
 
         JTextField searchInput = new JTextField(20); // da finire, inserire testo precompilato
 
-        String[] periods = { "Annuale", "Mensile", "Settimanale", "Giornaliero" };
-        JComboBox periodChooser = new JComboBox(periods);
+        String[] periods = {"", "Annuale", "Mensile", "Settimanale", "Giornaliero"};
+        JComboBox<String> periodChooser = new JComboBox<String>(periods);
+
+        JDateChooser startDateChooser = new JDateChooser(null, "dd/MM/yyyy");
+        JDateChooser endDateChooser = new JDateChooser(null, "dd/MM/yyyy");
 
         JLabel bilancioTitle = new JLabel("Bilancio");
         JLabel titleRicerca = new JLabel("Ricerca transazione:");
@@ -128,25 +128,27 @@ public class AppFrame extends JFrame implements ActionListener {
         JPanel rightPanel = new JPanel();
         JPanel leftPanel = new JPanel();
         JScrollPane tableScrollPane = new JScrollPane(tableBudget);
-        JPanel tbaleBtnsPanel = new JPanel();
+        JPanel tableBtnsPanel = new JPanel();
         JPanel searchPanel = new JPanel();
         JPanel bodyPanel = new JPanel();
         JPanel bilancioPanel = new JPanel();
+        JPanel dateChooserPanel = new JPanel();
 
         /* Definizione dei layout */
         setLayout(new BorderLayout());
         banner.setLayout(new FlowLayout());
         footer.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 20));
         leftPanel.setLayout(new BorderLayout());
-        tbaleBtnsPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 20));
+        tableBtnsPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 20));
         searchPanel.setLayout(new BoxLayout(searchPanel, BoxLayout.Y_AXIS));
         bodyPanel.setLayout(new BoxLayout(bodyPanel, BoxLayout.X_AXIS));
         rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
         bilancioPanel.setLayout(new BoxLayout(bilancioPanel, BoxLayout.Y_AXIS));
         addPanel.setLayout(new BoxLayout(addPanel, BoxLayout.Y_AXIS));
+        dateChooserPanel.setLayout(new BoxLayout(dateChooserPanel, BoxLayout.Y_AXIS));
 
         // Precompila il campo di input della data con la data attuale
-        dataField.setText(dataAttuale);
+        dataField.setText(dataAttualeString);
         addPanel.add(new JLabel("Importo:"));
         addPanel.add(importoField);
         addPanel.add(Box.createVerticalStrut(15)); // Spazio vuoto
@@ -180,27 +182,27 @@ public class AppFrame extends JFrame implements ActionListener {
         /* Modifiche dei pulsanti e dei componenti */
         addBtn.setPreferredSize(btnDimension);
         addBtn.setFont(btnFont);
-        AddActionListener addBtnListener = new AddActionListener(importoField, dataField, descrizioneField,
-                myBudget, budgetTableModel, dataAttuale,
-                addPanel, formatter, dataset, bilancioValue);
+        AddActionListener addBtnListener = new AddActionListener(importoField, dataField, descrizioneField, myBudget,
+                budgetTableModel, dataAttualeString, addPanel, formatter, dataset, bilancioValue);
         addBtn.addActionListener(addBtnListener);
 
         delBtn.setPreferredSize(btnDimension);
         delBtn.setFont(btnFont);
-        DeleteActionListener delBtnListener = new DeleteActionListener(tableBudget, myBudget, budgetTableModel,
-                dataset, bilancioValue);
+        DeleteActionListener delBtnListener = new DeleteActionListener(tableBudget, myBudget, budgetTableModel, dataset,
+                bilancioValue);
         delBtn.addActionListener(delBtnListener);
 
         modBtn.setPreferredSize(btnDimension);
         modBtn.setFont(btnFont);
-        ModActionListener modBtnListener = new ModActionListener(tableBudget, importoField, dataField,
-                descrizioneField, addPanel, formatter, myBudget,
-                budgetTableModel, dataset, bilancioValue);
+        ModActionListener modBtnListener = new ModActionListener(tableBudget, importoField, dataField, descrizioneField,
+                addPanel, formatter, myBudget, budgetTableModel, dataset, bilancioValue);
         modBtn.addActionListener(modBtnListener);
 
         periodChooser.setPreferredSize(btnDimension);
         periodChooser.setFont(btnFont);
-        periodChooser.addActionListener(this);
+        PeriodActionListener periodChooserListener = new PeriodActionListener(periodChooser, startDateChooser,
+                endDateChooser, filter, filterBtn, budgetTableModel);
+        periodChooser.addActionListener(periodChooserListener);
 
         saveBtn.setPreferredSize(btnDimension);
         saveBtn.setFont(btnFont);
@@ -209,8 +211,7 @@ public class AppFrame extends JFrame implements ActionListener {
 
         loadBtn.setPreferredSize(btnDimension);
         loadBtn.setFont(btnFont);
-        LoadActionListener loadBtnListener = new LoadActionListener(myBudget, budgetTableModel, dataset,
-                bilancioValue);
+        LoadActionListener loadBtnListener = new LoadActionListener(myBudget, budgetTableModel, dataset, bilancioValue);
         loadBtn.addActionListener(loadBtnListener);
 
         expBtn.setPreferredSize(btnDimension);
@@ -220,6 +221,8 @@ public class AppFrame extends JFrame implements ActionListener {
 
         printBtn.setPreferredSize(btnDimension);
         printBtn.setFont(btnFont);
+        PrintActionListener printBtnListener = new PrintActionListener(myBudget);
+        printBtn.addActionListener(printBtnListener);
 
         searchInput.setMaximumSize(new Dimension(550, 100));
         searchBtn.setPreferredSize(btnDimension);
@@ -244,12 +247,21 @@ public class AppFrame extends JFrame implements ActionListener {
         footer.add(expBtn);
         footer.add(printBtn);
 
-        tbaleBtnsPanel.add(addBtn);
-        tbaleBtnsPanel.add(modBtn);
-        tbaleBtnsPanel.add(delBtn);
-        tbaleBtnsPanel.add(periodChooser);
+        dateChooserPanel.add(startDateChooser);
+        dateChooserPanel.add(endDateChooser);
+        dateChooserPanel.add(filterBtn);
+        filterBtn.setAlignmentX(CENTER_ALIGNMENT);
+        FilterActionListener filterBtnListener = new FilterActionListener(myBudget, budgetTableModel, filterBtn, filter,
+                startDateChooser, endDateChooser);
+        filterBtn.addActionListener(filterBtnListener);
 
-        leftPanel.add(tbaleBtnsPanel, BorderLayout.NORTH);
+        tableBtnsPanel.add(addBtn);
+        tableBtnsPanel.add(modBtn);
+        tableBtnsPanel.add(delBtn);
+        tableBtnsPanel.add(periodChooser);
+        tableBtnsPanel.add(dateChooserPanel);
+
+        leftPanel.add(tableBtnsPanel, BorderLayout.NORTH);
         leftPanel.add(tableScrollPane, BorderLayout.CENTER);
 
         searchPanel.add(Box.createVerticalStrut(20));
@@ -282,13 +294,9 @@ public class AppFrame extends JFrame implements ActionListener {
         add(footer, BorderLayout.SOUTH);
         add(bodyPanel, BorderLayout.CENTER);
     }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        // TODO Auto-generated method stub
-
-    }
-
+    /**
+     * Metodo che genera causalmente n transazioni.
+     */
     public void generaTransazioni(Bilancio myBudget, DateTimeFormatter formatter) {
         Random random = new Random();
         int year;

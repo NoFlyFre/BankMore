@@ -1,27 +1,96 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <checkstyle version="8.45.1">
+<file name="C:\Users\fraca\OneDrive - Università degli Studi di Modena e Reggio Emilia\UNI\Informatica\3 anno\1 semestre\OOP\bankmore\src\main\java\com\noflyfre\bankmore\actionlisteners\AddActionListener.java">
+<error line="12" column="1" severity="error" message="Wrong order for &apos;com.noflyfre.bankmore.Bilancio&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+</file>
+<file name="C:\Users\fraca\OneDrive - Università degli Studi di Modena e Reggio Emilia\UNI\Informatica\3 anno\1 semestre\OOP\bankmore\src\main\java\com\noflyfre\bankmore\actionlisteners\DeleteActionListener.java">
+<error line="7" column="1" severity="error" message="Wrong order for &apos;com.noflyfre.bankmore.Bilancio&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="45" severity="error" message="Line has trailing spaces." source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineCheck"/>
+</file>
+<file name="C:\Users\fraca\OneDrive - Università degli Studi di Modena e Reggio Emilia\UNI\Informatica\3 anno\1 semestre\OOP\bankmore\src\main\java\com\noflyfre\bankmore\actionlisteners\ExportActionListener.java">
+<error line="17" column="1" severity="error" message="Wrong order for &apos;com.noflyfre.bankmore.Bilancio&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="20" column="1" severity="error" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocTypeCheck"/>
+</file>
+<file name="C:\Users\fraca\OneDrive - Università degli Studi di Modena e Reggio Emilia\UNI\Informatica\3 anno\1 semestre\OOP\bankmore\src\main\java\com\noflyfre\bankmore\actionlisteners\FilterActionListener.java">
+<error line="4" column="1" severity="error" message="Wrong order for &apos;java.awt.event.ActionEvent&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="7" column="1" severity="error" message="Wrong order for &apos;com.noflyfre.bankmore.Bilancio&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="11" column="1" severity="error" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocTypeCheck"/>
+<error line="21" column="5" severity="error" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
+<error line="35" column="20" severity="error" message="Expression can be simplified." source="com.puppycrawl.tools.checkstyle.checks.coding.SimplifyBooleanExpressionCheck"/>
+</file>
+<file name="C:\Users\fraca\OneDrive - Università degli Studi di Modena e Reggio Emilia\UNI\Informatica\3 anno\1 semestre\OOP\bankmore\src\main\java\com\noflyfre\bankmore\actionlisteners\LoadActionListener.java">
+<error line="13" column="1" severity="error" message="Extra separation in import group before &apos;com.noflyfre.bankmore.Bilancio&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="13" column="1" severity="error" message="Wrong order for &apos;com.noflyfre.bankmore.Bilancio&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="17" column="1" severity="error" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocTypeCheck"/>
+<error line="24" column="5" severity="error" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
+<error line="32" column="5" severity="error" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
+</file>
+<file name="C:\Users\fraca\OneDrive - Università degli Studi di Modena e Reggio Emilia\UNI\Informatica\3 anno\1 semestre\OOP\bankmore\src\main\java\com\noflyfre\bankmore\actionlisteners\ModActionListener.java">
+<error line="13" column="1" severity="error" message="Wrong order for &apos;com.noflyfre.bankmore.Bilancio&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="19" column="1" severity="error" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocTypeCheck"/>
+<error line="21" column="12" severity="error" message="Variable &apos;tableBudget&apos; must be private and have accessor methods." source="com.puppycrawl.tools.checkstyle.checks.design.VisibilityModifierCheck"/>
+<error line="22" column="16" severity="error" message="Variable &apos;importoField&apos; must be private and have accessor methods." source="com.puppycrawl.tools.checkstyle.checks.design.VisibilityModifierCheck"/>
+<error line="23" column="16" severity="error" message="Variable &apos;dataField&apos; must be private and have accessor methods." source="com.puppycrawl.tools.checkstyle.checks.design.VisibilityModifierCheck"/>
+<error line="24" column="16" severity="error" message="Variable &apos;descrizioneField&apos; must be private and have accessor methods." source="com.puppycrawl.tools.checkstyle.checks.design.VisibilityModifierCheck"/>
+<error line="25" column="12" severity="error" message="Variable &apos;addPanel&apos; must be private and have accessor methods." source="com.puppycrawl.tools.checkstyle.checks.design.VisibilityModifierCheck"/>
+<error line="26" column="23" severity="error" message="Variable &apos;formatter&apos; must be private and have accessor methods." source="com.puppycrawl.tools.checkstyle.checks.design.VisibilityModifierCheck"/>
+<error line="27" column="14" severity="error" message="Variable &apos;myBudget&apos; must be private and have accessor methods." source="com.puppycrawl.tools.checkstyle.checks.design.VisibilityModifierCheck"/>
+<error line="28" column="18" severity="error" message="Variable &apos;budgetTableModel&apos; must be private and have accessor methods." source="com.puppycrawl.tools.checkstyle.checks.design.VisibilityModifierCheck"/>
+<error line="29" column="28" severity="error" message="Variable &apos;dataset&apos; must be private and have accessor methods." source="com.puppycrawl.tools.checkstyle.checks.design.VisibilityModifierCheck"/>
+<error line="30" column="12" severity="error" message="Variable &apos;bilancioValue&apos; must be private and have accessor methods." source="com.puppycrawl.tools.checkstyle.checks.design.VisibilityModifierCheck"/>
+<error line="32" column="5" severity="error" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
+<error line="32" column="12" severity="error" message="More than 7 parameters (found 10)." source="com.puppycrawl.tools.checkstyle.checks.sizes.ParameterNumberCheck"/>
+<error line="62" column="21" severity="error" message="Nested if-else depth is 2 (max allowed is 1)." source="com.puppycrawl.tools.checkstyle.checks.coding.NestedIfDepthCheck"/>
+<error line="71" column="19" severity="error" message="Catching &apos;Exception&apos; is not allowed." source="com.puppycrawl.tools.checkstyle.checks.coding.IllegalCatchCheck"/>
+<error line="73" severity="error" message="Line is longer than 120 characters (found 127)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+</file>
+<file name="C:\Users\fraca\OneDrive - Università degli Studi di Modena e Reggio Emilia\UNI\Informatica\3 anno\1 semestre\OOP\bankmore\src\main\java\com\noflyfre\bankmore\actionlisteners\PeriodActionListener.java">
+<error line="11" column="1" severity="error" message="Wrong order for &apos;com.noflyfre.bankmore.MyTableModel&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="14" column="1" severity="error" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocTypeCheck"/>
+<error line="23" column="5" severity="error" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
+</file>
+<file name="C:\Users\fraca\OneDrive - Università degli Studi di Modena e Reggio Emilia\UNI\Informatica\3 anno\1 semestre\OOP\bankmore\src\main\java\com\noflyfre\bankmore\actionlisteners\PrintActionListener.java">
+<error line="7" column="1" severity="error" message="Wrong order for &apos;com.noflyfre.bankmore.Bilancio&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="10" column="1" severity="error" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocTypeCheck"/>
+<error line="12" column="14" severity="error" message="Variable &apos;myBudget&apos; must be private and have accessor methods." source="com.puppycrawl.tools.checkstyle.checks.design.VisibilityModifierCheck"/>
+</file>
+<file name="C:\Users\fraca\OneDrive - Università degli Studi di Modena e Reggio Emilia\UNI\Informatica\3 anno\1 semestre\OOP\bankmore\src\main\java\com\noflyfre\bankmore\actionlisteners\SaveActionListener.java">
+<error line="12" column="1" severity="error" message="Wrong order for &apos;com.noflyfre.bankmore.Bilancio&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="14" column="1" severity="error" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocTypeCheck"/>
+<error line="22" column="5" severity="error" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
+<error line="35" column="17" severity="error" message="Nested if-else depth is 2 (max allowed is 1)." source="com.puppycrawl.tools.checkstyle.checks.coding.NestedIfDepthCheck"/>
+</file>
+<file name="C:\Users\fraca\OneDrive - Università degli Studi di Modena e Reggio Emilia\UNI\Informatica\3 anno\1 semestre\OOP\bankmore\src\main\java\com\noflyfre\bankmore\actionlisteners\SearchActionListener.java">
+<error line="10" column="1" severity="error" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocTypeCheck"/>
+<error line="17" column="5" severity="error" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
+<error line="24" column="5" severity="error" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
+<error line="61" column="5" severity="error" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
+<error line="61" column="44" severity="error" message="&apos;tableBudget&apos; hides a field." source="com.puppycrawl.tools.checkstyle.checks.coding.HiddenFieldCheck"/>
+</file>
 <file name="C:\Users\fraca\OneDrive - Università degli Studi di Modena e Reggio Emilia\UNI\Informatica\3 anno\1 semestre\OOP\bankmore\src\main\java\com\noflyfre\bankmore\AppFrame.java">
-<error line="16" column="1" severity="error" message="Wrong order for &apos;java.awt.event.KeyAdapter&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
-<error line="29" column="8" severity="error" message="Unused import - javax.swing.table.DefaultTableModel." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
-<error line="31" column="1" severity="error" message="Extra separation in import group before &apos;org.jfree.chart.ChartFactory&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
-<error line="87" severity="error" message="Line has trailing spaces." source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineCheck"/>
-<error line="91" column="5" severity="error" message="Method initComponents length is 257 lines (max allowed is 150)." source="com.puppycrawl.tools.checkstyle.checks.sizes.MethodLengthCheck"/>
-<error line="97" column="28" severity="error" message="&apos;{&apos; is followed by whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.NoWhitespaceAfterCheck"/>
-<error line="370" column="5" severity="error" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
-<error line="370" column="72" severity="error" message="&apos;formatter&apos; hides a field." source="com.puppycrawl.tools.checkstyle.checks.coding.HiddenFieldCheck"/>
+<error line="8" column="8" severity="error" message="Unused import - java.awt.event.ActionEvent." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+<error line="9" column="8" severity="error" message="Unused import - java.awt.event.ActionListener." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+<error line="14" column="8" severity="error" message="Unused import - java.util.Date." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+<error line="30" column="1" severity="error" message="Wrong order for &apos;com.toedter.calendar.JDateChooser&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="31" column="1" severity="error" message="Wrong order for &apos;com.formdev.flatlaf.intellijthemes.FlatArcIJTheme&apos; import." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="77" column="21" severity="error" message="Variable &apos;filter&apos; explicitly initialized to &apos;false&apos; (default value for its type)." source="com.puppycrawl.tools.checkstyle.checks.coding.ExplicitInitializationCheck"/>
+<error line="105" column="5" severity="error" message="Method initComponents length is 192 lines (max allowed is 150)." source="com.puppycrawl.tools.checkstyle.checks.sizes.MethodLengthCheck"/>
+<error line="300" column="5" severity="error" message="&apos;METHOD_DEF&apos; should be separated from previous line." source="com.puppycrawl.tools.checkstyle.checks.whitespace.EmptyLineSeparatorCheck"/>
+<error line="300" column="72" severity="error" message="&apos;formatter&apos; hides a field." source="com.puppycrawl.tools.checkstyle.checks.coding.HiddenFieldCheck"/>
+</file>
+<file name="C:\Users\fraca\OneDrive - Università degli Studi di Modena e Reggio Emilia\UNI\Informatica\3 anno\1 semestre\OOP\bankmore\src\main\java\com\noflyfre\bankmore\AutoSave.java">
+<error line="7" column="8" severity="error" message="Unused import - java.time.Instant." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+<error line="12" column="1" severity="error" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocTypeCheck"/>
+<error line="20" column="5" severity="error" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
 </file>
 <file name="C:\Users\fraca\OneDrive - Università degli Studi di Modena e Reggio Emilia\UNI\Informatica\3 anno\1 semestre\OOP\bankmore\src\main\java\com\noflyfre\bankmore\BankmoreApp.java">
 <error line="12" column="5" severity="error" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
 <error line="15" column="11" severity="error" message="Catching &apos;Exception&apos; is not allowed." source="com.puppycrawl.tools.checkstyle.checks.coding.IllegalCatchCheck"/>
 </file>
-<file name="C:\Users\fraca\OneDrive - Università degli Studi di Modena e Reggio Emilia\UNI\Informatica\3 anno\1 semestre\OOP\bankmore\src\main\java\com\noflyfre\bankmore\Bilancio.java">
-</file>
-<file name="C:\Users\fraca\OneDrive - Università degli Studi di Modena e Reggio Emilia\UNI\Informatica\3 anno\1 semestre\OOP\bankmore\src\main\java\com\noflyfre\bankmore\Entrata.java">
+<file name="C:\Users\fraca\OneDrive - Università degli Studi di Modena e Reggio Emilia\UNI\Informatica\3 anno\1 semestre\OOP\bankmore\src\main\java\com\noflyfre\bankmore\BilancioPrintable.java">
+<error line="20" severity="error" message="Line has trailing spaces." source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineCheck"/>
+<error line="30" severity="error" message="Line has trailing spaces." source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineCheck"/>
 </file>
 <file name="C:\Users\fraca\OneDrive - Università degli Studi di Modena e Reggio Emilia\UNI\Informatica\3 anno\1 semestre\OOP\bankmore\src\main\java\com\noflyfre\bankmore\MyTableModel.java">
-<error line="4" column="8" severity="error" message="Unused import - java.util.Collection." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
-<error line="5" column="8" severity="error" message="Unused import - java.util.Collections." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
-</file>
-<file name="C:\Users\fraca\OneDrive - Università degli Studi di Modena e Reggio Emilia\UNI\Informatica\3 anno\1 semestre\OOP\bankmore\src\main\java\com\noflyfre\bankmore\Uscita.java">
 </file>
 </checkstyle>
