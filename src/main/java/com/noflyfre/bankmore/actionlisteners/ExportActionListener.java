@@ -16,6 +16,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.noflyfre.bankmore.logic.Bilancio;
+import com.noflyfre.bankmore.logic.Uscita;
 import com.noflyfre.bankmore.logic.VoceBilancio;
 
 /**
@@ -35,11 +36,16 @@ public class ExportActionListener implements ActionListener {
     }
 
     /**
-     * Il metodo è utilizzato per esportare il bilancio in diversi formati: CSV, Excel, e txt. Viene utilizzato un
-     * JFileChooser per selezionare il percorso dove salvare il file e il formato desiderato. Il metodo crea un oggetto
-     * Workbook per generare un file di Excel, oppure utilizza un FileWriter per generare un file CSV o di testo
-     * semplice. In base alla selezione dell'utente e al percorso selezionato, il metodo scrive i dati del bilancio nel
-     * file scelto, utilizzando una serie di istruzioni per formattare i dati appropriatamente.
+     * Il metodo è utilizzato per esportare il bilancio in diversi formati: CSV,
+     * Excel, e txt. Viene utilizzato un
+     * JFileChooser per selezionare il percorso dove salvare il file e il formato
+     * desiderato. Il metodo crea un oggetto
+     * Workbook per generare un file di Excel, oppure utilizza un FileWriter per
+     * generare un file CSV o di testo
+     * semplice. In base alla selezione dell'utente e al percorso selezionato, il
+     * metodo scrive i dati del bilancio nel
+     * file scelto, utilizzando una serie di istruzioni per formattare i dati
+     * appropriatamente.
      */
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -61,11 +67,22 @@ public class ExportActionListener implements ActionListener {
                         exportPath.getAbsolutePath().replaceAll(".csv", "") + ".csv")) {
                     StringBuilder csv = new StringBuilder();
 
+                    String data;
+                    String importo;
+                    String descrizione;
+
                     csv.append("Data,Importo,Descrizione\n");
 
                     for (VoceBilancio voce : myBudget.getTransazioni()) {
-                        String row = voce.getData().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + ","
-                                + voce.getAmount() + "," + voce.getDescrizione() + "\n";
+                        data = voce.getData().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                        if (voce instanceof Uscita) {
+                            importo = "-" + String.format("%.2f",(voce.getAmount()));
+                        } else {
+                            importo = String.format("%.2f",(voce.getAmount()));
+                        }
+                        descrizione = voce.getDescrizione();
+                        String row = data + ","
+                                + importo + "," + descrizione + "\n";
                         csv.append(row);
                     }
 
@@ -86,13 +103,24 @@ public class ExportActionListener implements ActionListener {
                     headerRow.createCell(1).setCellValue("Importo");
                     headerRow.createCell(2).setCellValue("Descrizione");
 
+                    String data;
+                    String importo;
+                    String descrizione;
+
                     int rowNum = 1;
                     for (VoceBilancio voce : myBudget.getTransazioni()) {
+                        data = voce.getData().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                        if (voce instanceof Uscita) {
+                            importo = "-" + String.format("%.2f",(voce.getAmount()));
+                        } else {
+                            importo = String.format("%.2f",(voce.getAmount()));
+                        }
+                        descrizione = voce.getDescrizione();
                         Row row = sheet.createRow(rowNum++);
                         row.createCell(0)
-                                .setCellValue(voce.getData().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-                        row.createCell(1).setCellValue(voce.getAmount());
-                        row.createCell(2).setCellValue(voce.getDescrizione());
+                                .setCellValue(data);
+                        row.createCell(1).setCellValue(importo);
+                        row.createCell(2).setCellValue(descrizione);
                     }
 
                     Row totalRow = sheet.createRow(rowNum);
@@ -109,10 +137,20 @@ public class ExportActionListener implements ActionListener {
                 try (FileWriter fileWriter = new FileWriter(
                         exportPath.getAbsolutePath().replaceAll(".txt", "") + ".txt")) {
                     StringBuilder txt = new StringBuilder();
+                    String data;
+                    String importo;
+                    String descrizione;
 
                     for (VoceBilancio voce : myBudget.getTransazioni()) {
-                        String row = voce.getData().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + " \t"
-                                + String.format("%.2f", voce.getAmount()) + "€\t" + voce.getDescrizione() + "\n";
+                        data = voce.getData().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                        if (voce instanceof Uscita) {
+                            importo = "-" + String.format("%.2f",(voce.getAmount()));
+                        } else {
+                            importo = String.format("%.2f",(voce.getAmount()));
+                        }
+                        descrizione = voce.getDescrizione();
+                        String row = data + " \t"
+                                + importo + "€\t" + descrizione + "\n";
                         txt.append(row);
                     }
 

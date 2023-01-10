@@ -38,25 +38,27 @@ public class AddActionListener implements ActionListener {
      * Costruttore della classe.
      *
      * @param importoField
-     *            campo di inserimento importo da cui prendere l'importo
+     *                         campo di inserimento importo da cui prendere
+     *                         l'importo
      * @param dataField
-     *            campo di inserimento data da cui prendere la data
+     *                         campo di inserimento data da cui prendere la data
      * @param descrizioneField
-     *            campo di inserimento descrizione da cui prendere la descrizione
+     *                         campo di inserimento descrizione da cui prendere la
+     *                         descrizione
      * @param myBudget
-     *            bilancio da modificare
+     *                         bilancio da modificare
      * @param budgetTableModel
-     *            modello da modificare
+     *                         modello da modificare
      * @param dataAttuale
-     *            data attuale da inserire di default
+     *                         data attuale da inserire di default
      * @param addPanel
-     *            pannello da visualizzare
+     *                         pannello da visualizzare
      * @param formatter
-     *            formatter di data
+     *                         formatter di data
      * @param dataset
-     *            dataser da aggiornare, per modificare il grafico
+     *                         dataser da aggiornare, per modificare il grafico
      * @param bilancioValue
-     *            valore di bilancio da modificare
+     *                         valore di bilancio da modificare
      */
     public AddActionListener(JTextField importoField, JTextField dataField, JTextField descrizioneField,
             Bilancio myBudget, MyTableModel budgetTableModel, String dataAttuale, JPanel addPanel,
@@ -76,52 +78,55 @@ public class AddActionListener implements ActionListener {
 
     /**
      *
-     * Metodo che gestisce l'evento di clic sul bottone "Aggiungi transazione". Mostra una finestra di dialogo
-     * all'utente per l'inserimento di una nuova transazione, verifica che i dati inseriti siano corretti e se sono
-     * validi li aggiunge al bilancio. Aggiorna anche la tabella e il grafico del bilancio in seguito all'aggiunta della
+     * Metodo che gestisce l'evento di clic sul bottone "Aggiungi transazione".
+     * Mostra una finestra di dialogo
+     * all'utente per l'inserimento di una nuova transazione, verifica che i dati
+     * inseriti siano corretti e se sono
+     * validi li aggiunge al bilancio. Aggiorna anche la tabella e il grafico del
+     * bilancio in seguito all'aggiunta della
      * nuova transazione.
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (filter) {
-            return;
-        }
-        importoField.setText("");
-        dataField.setText(dataAttuale);
-        descrizioneField.setText("");
-        int result = JOptionPane.showConfirmDialog(null, addPanel, "Nuova transazione", JOptionPane.OK_CANCEL_OPTION,
-                JOptionPane.PLAIN_MESSAGE);
-        if (result == JOptionPane.OK_OPTION) {
-            try {
-                int importo = Integer.parseInt(importoField.getText());
-                LocalDate data = LocalDate.parse(dataField.getText(), formatter);
-                String descrizione = descrizioneField.getText();
-                if (importo > 0) {
-                    myBudget.addTransazione(new Entrata(data, descrizione, importo));
-                } else {
-                    myBudget.addTransazione(new Uscita(data, descrizione, importo));
+        if (!filter) {
+            importoField.setText("");
+            dataField.setText(dataAttuale);
+            descrizioneField.setText("");
+            int result = JOptionPane.showConfirmDialog(null, addPanel, "Nuova transazione",
+                    JOptionPane.OK_CANCEL_OPTION,
+                    JOptionPane.PLAIN_MESSAGE);
+            if (result == JOptionPane.OK_OPTION) {
+                try {
+                    int importo = Integer.parseInt(importoField.getText());
+                    LocalDate data = LocalDate.parse(dataField.getText(), formatter);
+                    String descrizione = descrizioneField.getText();
+                    if (importo > 0) {
+                        myBudget.addTransazione(new Entrata(data, descrizione, importo));
+                    } else {
+                        myBudget.addTransazione(new Uscita(data, descrizione, importo));
+                    }
+                    budgetTableModel.fireTableDataChanged();
+                    importoField.setText("");
+                    dataField.setText(dataAttuale);
+                    descrizioneField.setText("");
+                    dataset.setValue("Entrate", myBudget.totaleEntrate());
+                    dataset.setValue("Uscite", myBudget.totaleUscite());
+                    bilancioValue.setText(String.format("%.2f", myBudget.totaleBilancio()) + "€");
+                } catch (NumberFormatException exc) {
+                    JOptionPane.showMessageDialog(addPanel,
+                            "Inserisci i dati corretti!\nLa data deve essere inserita esattamente in formato dd/MM/yyyy.",
+                            "Errore", JOptionPane.ERROR_MESSAGE);
+                    importoField.setText("");
+                    dataField.setText(dataAttuale);
+                    descrizioneField.setText("");
+                } catch (DateTimeParseException exc) {
+                    JOptionPane.showMessageDialog(addPanel,
+                            "Inserisci i dati corretti!\nLa data deve essere inserita esattamente in formato dd/MM/yyyy.",
+                            "Errore", JOptionPane.ERROR_MESSAGE);
+                    importoField.setText("");
+                    dataField.setText(dataAttuale);
+                    descrizioneField.setText("");
                 }
-                budgetTableModel.fireTableDataChanged();
-                importoField.setText("");
-                dataField.setText(dataAttuale);
-                descrizioneField.setText("");
-                dataset.setValue("Entrate", myBudget.totaleEntrate());
-                dataset.setValue("Uscite", myBudget.totaleUscite());
-                bilancioValue.setText(String.format("%.2f", myBudget.totaleBilancio()) + "€");
-            } catch (NumberFormatException exc) {
-                JOptionPane.showMessageDialog(addPanel,
-                        "Inserisci i dati corretti!\nLa data deve essere inserita esattamente in formato dd/MM/yyyy.",
-                        "Errore", JOptionPane.ERROR_MESSAGE);
-                importoField.setText("");
-                dataField.setText(dataAttuale);
-                descrizioneField.setText("");
-            } catch (DateTimeParseException exc) {
-                JOptionPane.showMessageDialog(addPanel,
-                        "Inserisci i dati corretti!\nLa data deve essere inserita esattamente in formato dd/MM/yyyy.",
-                        "Errore", JOptionPane.ERROR_MESSAGE);
-                importoField.setText("");
-                dataField.setText(dataAttuale);
-                descrizioneField.setText("");
             }
         }
     }

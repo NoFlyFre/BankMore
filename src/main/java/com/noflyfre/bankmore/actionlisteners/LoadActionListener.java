@@ -10,6 +10,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
+import com.noflyfre.bankmore.gui.AppFrame;
 import com.noflyfre.bankmore.gui.MyTableModel;
 import com.noflyfre.bankmore.gui.SerializablePieDataset;
 import com.noflyfre.bankmore.logic.Bilancio;
@@ -45,7 +46,7 @@ public class LoadActionListener implements ActionListener {
      * di conseguenza.
      */
     public void actionPerformed(ActionEvent e) {
-        Bilancio budgetCaricato = null;
+        Bilancio budgetCaricato = new Bilancio();
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Apri file");
         fileChooser.setApproveButtonText("Apri");
@@ -55,20 +56,25 @@ public class LoadActionListener implements ActionListener {
             try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(fileToOpen))) {
                 // Leggere l'oggetto bilancio dallo stream e assegnarlo a myBudget
                 budgetCaricato = (Bilancio) in.readObject();
-                myBudget = budgetCaricato;
-                dataset.setValue("Entrate", myBudget.totaleEntrate());
-                dataset.setValue("Uscite", myBudget.totaleUscite());
+                myBudget.setTransazioni(budgetCaricato.getTransazioni());;
+                dataset.setValue("Entrate", budgetCaricato.totaleEntrate());
+                dataset.setValue("Uscite", budgetCaricato.totaleUscite());
                 bilancioValue.setText(String.format("%.2f", myBudget.totaleBilancio()) + "€");
-                budgetTableModel.setOriginalData(myBudget.getTransazioni());
-                budgetTableModel.setDati(myBudget.getTransazioni());
+                budgetTableModel.setOriginalData(budgetCaricato.getTransazioni());
+                budgetTableModel.setDati(budgetCaricato.getTransazioni());
                 budgetTableModel.fireTableDataChanged();
+                System.out.println(budgetTableModel.getRowCount());
             } catch (IOException exc) {
                 JOptionPane.showMessageDialog(fileChooser, "File non esistente.", "Errore di caricamento",
                         JOptionPane.ERROR_MESSAGE);
+                        exc.printStackTrace();
             } catch (ClassNotFoundException e1) {
                 JOptionPane.showMessageDialog(fileChooser, "File non supportato.", "Errore di caricamento",
                         JOptionPane.ERROR_MESSAGE);
+                        e1.printStackTrace();
             }
         }
+        System.out.println("BILANCIO CARICATO\n");
+        myBudget.stampaBilancio();
     }
 }

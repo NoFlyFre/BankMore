@@ -10,6 +10,7 @@ import com.noflyfre.bankmore.logic.Bilancio;
 import com.noflyfre.bankmore.logic.Uscita;
 import com.noflyfre.bankmore.logic.VoceBilancio;
 
+
 /**
  * Classe che definisce il modello della tabella.
  */
@@ -19,6 +20,7 @@ public class MyTableModel extends AbstractTableModel {
 
     private List<VoceBilancio> dati;
     private List<VoceBilancio> originalData;
+    List<VoceBilancio> vociDaMostrare = new ArrayList<>();
 
     public MyTableModel(Bilancio myBudget) {
         dati = myBudget.getTransazioni();
@@ -78,6 +80,10 @@ public class MyTableModel extends AbstractTableModel {
         return String.format("%.2f", totale) + "€";
     }
 
+    public void setVociDaMostrare(VoceBilancio voce) {
+        vociDaMostrare.add(voce);
+    }
+
     /**
      * Il metodo si occupa di restituire il valore contenuto in una specifica cella della tabella. Prende in input due
      * parametri: l'indice della riga e l'indice della colonna della cella di cui si vuole ottenere il valore. Se la
@@ -133,7 +139,6 @@ public class MyTableModel extends AbstractTableModel {
      * @param dataFine
      */
     public void filtraVoci(LocalDate dataInizio, LocalDate dataFine) {
-        List<VoceBilancio> vociDaMostrare = new ArrayList<>();
         for (VoceBilancio voce : dati) {
             if (voce.getData().isAfter(dataInizio) && voce.getData().isBefore(dataFine)
                     || voce.getData().equals(dataInizio) || voce.getData().equals(dataFine)) {

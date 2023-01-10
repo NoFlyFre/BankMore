@@ -18,6 +18,10 @@ public class Bilancio implements Serializable {
         transazioni = new ArrayList<>();
     }
 
+    public void setTransazioni(List<VoceBilancio> nuoveTransazioni) {
+        transazioni = nuoveTransazioni;
+    }
+
     public void addTransazione(VoceBilancio transazione) {
         transazioni.add(transazione);
     }
