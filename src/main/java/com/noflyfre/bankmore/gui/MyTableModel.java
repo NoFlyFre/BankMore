@@ -151,6 +151,7 @@ public class MyTableModel extends AbstractTableModel {
 
     public void resetTableData() {
         dati = originalData;
+        vociDaMostrare.clear();
         fireTableDataChanged();
     }
 }

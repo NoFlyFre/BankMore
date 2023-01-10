@@ -35,62 +35,122 @@ public class PeriodActionListener implements ActionListener {
     }
 
     /**
-     * Metodo che imposta le date corrispondenti nei field di data in base alla scelta selezionata nel menù a tendina
+     * Metodo che imposta le date corrispondenti nei field di data in base alla
+     * scelta selezionata nel menù a tendina
      * delle scelte preimpostate.
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        Object selectedItem = periodChooser.getSelectedItem();
+        int selectedItem = periodChooser.getSelectedIndex();
         LocalDate dataAttuale = LocalDate.now();
 
-        if (selectedItem.equals("Annuale")) {
-            // Imposta la data di inizio al giorno di un anno fa
-            startDateChooser.setDate(Date.from(dataAttuale.minusYears(1).atStartOfDay().toInstant(ZoneOffset.UTC)));
+        switch (selectedItem) {
+            case 0:
+                // Imposta la data di inizio al giorno di un giorno fa
+                startDateChooser.setDate(null);
 
-            // Imposta la data di fine al giorno di oggi
-            endDateChooser.setDate(Date.from(dataAttuale.atStartOfDay().toInstant(ZoneOffset.UTC)));
+                // Imposta la data di fine al giorno di oggi
+                endDateChooser.setDate(null);
 
-            // Attiva il filtro
-            activeFilter();
-        } else if (selectedItem.equals("Mensile")) {
-            // Imposta la data di inizio al giorno di un mese fa
-            startDateChooser.setDate(Date.from(dataAttuale.minusMonths(1).atStartOfDay().toInstant(ZoneOffset.UTC)));
+                filterBtn.setText("Filtra");
+                budgetTableModel.resetTableData();
+                break;
 
-            // Imposta la data di fine al giorno di oggi
-            endDateChooser.setDate(Date.from(dataAttuale.atStartOfDay().toInstant(ZoneOffset.UTC)));
+            case 1:
+                // Imposta la data di inizio al giorno di un anno fa
+                startDateChooser.setDate(Date.from(dataAttuale.minusYears(1).atStartOfDay().toInstant(ZoneOffset.UTC)));
 
-            // Attiva il filtro
-            activeFilter();
-        } else if (selectedItem.equals("Mensile")) {
-            // Imposta la data di inizio al giorno di una settimana fa
-            startDateChooser.setDate(Date.from(dataAttuale.minusWeeks(1).atStartOfDay().toInstant(ZoneOffset.UTC)));
+                // Imposta la data di fine al giorno di oggi
+                endDateChooser.setDate(Date.from(dataAttuale.atStartOfDay().toInstant(ZoneOffset.UTC)));
 
-            // Imposta la data di fine al giorno di oggi
-            endDateChooser.setDate(Date.from(dataAttuale.atStartOfDay().toInstant(ZoneOffset.UTC)));
+                // Attiva il filtro
+                activeFilter();
+                break;
 
-            // Attiva il filtro
-            activeFilter();
-        } else if (selectedItem.equals("Mensile")) {
-            // Imposta la data di inizio al giorno di un giorno fa
-            startDateChooser.setDate(Date.from(dataAttuale.minusDays(1).atStartOfDay().toInstant(ZoneOffset.UTC)));
+            case 2:
+                // Imposta la data di inizio al giorno di un mese fa
+                startDateChooser
+                        .setDate(Date.from(dataAttuale.minusMonths(1).atStartOfDay().toInstant(ZoneOffset.UTC)));
 
-            // Imposta la data di fine al giorno di oggi
-            endDateChooser.setDate(Date.from(dataAttuale.atStartOfDay().toInstant(ZoneOffset.UTC)));
+                // Imposta la data di fine al giorno di oggi
+                endDateChooser.setDate(Date.from(dataAttuale.atStartOfDay().toInstant(ZoneOffset.UTC)));
 
-            // Attiva il filtro
-            activeFilter();
-        } else if (selectedItem.equals("")) {
-            // Imposta la data di inizio al giorno di un giorno fa
-            startDateChooser.setDate(null);
+                // Attiva il filtro
+                activeFilter();
+                break;
+            case 3:
+                // Imposta la data di inizio al giorno di un giorno fa
+                startDateChooser.setDate(Date.from(dataAttuale.minusDays(1).atStartOfDay().toInstant(ZoneOffset.UTC)));
 
-            // Imposta la data di fine al giorno di oggi
-            endDateChooser.setDate(null);
+                // Imposta la data di fine al giorno di oggi
+                endDateChooser.setDate(Date.from(dataAttuale.atStartOfDay().toInstant(ZoneOffset.UTC)));
 
-            filterBtn.setText("Filtra");
-            budgetTableModel.resetTableData();
+                // Attiva il filtro
+                activeFilter();
+                break;
+
+            default:
+                break;
         }
     }
 
+    /*
+     * if (selectedItem.equals("Annuale")) {
+     * // Imposta la data di inizio al giorno di un anno fa
+     * startDateChooser.setDate(Date.from(dataAttuale.minusYears(1).atStartOfDay().
+     * toInstant(ZoneOffset.UTC)));
+     * 
+     * // Imposta la data di fine al giorno di oggi
+     * endDateChooser.setDate(Date.from(dataAttuale.atStartOfDay().toInstant(
+     * ZoneOffset.UTC)));
+     * 
+     * // Attiva il filtro
+     * activeFilter();
+     * } else if (selectedItem.equals("Mensile")) {
+     * // Imposta la data di inizio al giorno di un mese fa
+     * startDateChooser.setDate(Date.from(dataAttuale.minusMonths(1).atStartOfDay().
+     * toInstant(ZoneOffset.UTC)));
+     * 
+     * // Imposta la data di fine al giorno di oggi
+     * endDateChooser.setDate(Date.from(dataAttuale.atStartOfDay().toInstant(
+     * ZoneOffset.UTC)));
+     * 
+     * // Attiva il filtro
+     * activeFilter();
+     * } else if (selectedItem.equals("Mensile")) {
+     * // Imposta la data di inizio al giorno di una settimana fa
+     * startDateChooser.setDate(Date.from(dataAttuale.minusWeeks(1).atStartOfDay().
+     * toInstant(ZoneOffset.UTC)));
+     * 
+     * // Imposta la data di fine al giorno di oggi
+     * endDateChooser.setDate(Date.from(dataAttuale.atStartOfDay().toInstant(
+     * ZoneOffset.UTC)));
+     * 
+     * // Attiva il filtro
+     * activeFilter();
+     * } else if (selectedItem.equals("Mensile")) {
+     * // Imposta la data di inizio al giorno di un giorno fa
+     * startDateChooser.setDate(Date.from(dataAttuale.minusDays(1).atStartOfDay().
+     * toInstant(ZoneOffset.UTC)));
+     * 
+     * // Imposta la data di fine al giorno di oggi
+     * endDateChooser.setDate(Date.from(dataAttuale.atStartOfDay().toInstant(
+     * ZoneOffset.UTC)));
+     * 
+     * // Attiva il filtro
+     * activeFilter();
+     * } else if (selectedItem.equals("")) {
+     * // Imposta la data di inizio al giorno di un giorno fa
+     * startDateChooser.setDate(null);
+     * 
+     * // Imposta la data di fine al giorno di oggi
+     * endDateChooser.setDate(null);
+     * 
+     * filterBtn.setText("Filtra");
+     * budgetTableModel.resetTableData();
+     * }
+     * }
+     */
     /**
      * Metodo che attiva il filtro di periodo.
      */

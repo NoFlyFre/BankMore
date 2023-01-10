@@ -3,13 +3,11 @@ package com.noflyfre.bankmore.actionlisteners;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.ZoneId;
 
 import com.noflyfre.bankmore.gui.MyTableModel;
-import com.noflyfre.bankmore.logic.Bilancio;
 import com.toedter.calendar.JDateChooser;
 
 /**
@@ -66,5 +64,4 @@ public class FilterActionListener implements ActionListener {
             endDateChooser.setDate(null);
         }
     }
-
 }

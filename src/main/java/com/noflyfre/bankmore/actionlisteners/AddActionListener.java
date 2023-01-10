@@ -88,6 +88,7 @@ public class AddActionListener implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
+        System.out.println(filter);
         if (!filter) {
             importoField.setText("");
             dataField.setText(dataAttuale);

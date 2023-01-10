@@ -256,7 +256,7 @@ public class AppFrame extends JFrame {
         FilterActionListener filterBtnListener = new FilterActionListener(budgetTableModel, filterBtn, filter,
                 startDateChooser, endDateChooser, periodChooser);
         filterBtn.addActionListener(filterBtnListener);
-
+        
         tableBtnsPanel.add(addBtn);
         tableBtnsPanel.add(modBtn);
         tableBtnsPanel.add(delBtn);
