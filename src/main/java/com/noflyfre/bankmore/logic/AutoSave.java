@@ -33,7 +33,7 @@ public class AutoSave {
             }
         };
         // Imposta il timer per eseguire il task ogni 10 minuti
-        timer.scheduleAtFixedRate(task, 10 * 60 * 1000, 10 * 60 * 1000);
+        timer.scheduleAtFixedRate(task, 0, 10 * 60 * 1000);
     }
 
     /**
@@ -42,9 +42,10 @@ public class AutoSave {
      */
     private void saveBudget() {
         String now = LocalDateTime.now().toString();
-        String formattedTime = now.substring(0, 4) + now.substring(5, 7) + now.substring(8, 10) + now.substring(11, 13)
+        String formattedDate = now.substring(0, 4) + now.substring(5, 7) + now.substring(8, 10);
+        String formattedTime = now.substring(11, 13);
                 + now.substring(14, 16);
-        String fileName = "AutoSave" + formattedTime;
+        String fileName = "AutoSave_" + formattedDate + "_" + formattedTime;
         File fileToSave = new File(fileName);
         try (ObjectOutputStream out = new ObjectOutputStream(
                 new FileOutputStream(fileToSave.toString().replaceAll(".bin$", "") + ".bin"))) {
