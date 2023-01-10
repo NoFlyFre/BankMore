@@ -74,7 +74,5 @@ public class LoadActionListener implements ActionListener {
                         e1.printStackTrace();
             }
         }
-        System.out.println("BILANCIO CARICATO\n");
-        myBudget.stampaBilancio();
     }
 }

@@ -111,6 +111,7 @@ public class Bilancio implements Serializable {
     /**
      * Metodo che stampa il bilancio nel terminale.
      */
+    /*
     public void stampaBilancio() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         for (VoceBilancio transazione : transazioni) {
@@ -126,7 +127,7 @@ public class Bilancio implements Serializable {
             index++;
         }
     }
-
+    */
     public List<VoceBilancio> getTransazioni() {
         return transazioni;
     }

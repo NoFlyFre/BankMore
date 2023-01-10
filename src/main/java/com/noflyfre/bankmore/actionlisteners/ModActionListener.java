@@ -114,7 +114,6 @@ public class ModActionListener implements ActionListener {
                             "Errore", JOptionPane.ERROR_MESSAGE);
                 }
             }
-            myBudget.stampaBilancio(); //DA ELIMINARE
         }
     }
 }

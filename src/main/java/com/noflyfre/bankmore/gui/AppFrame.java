@@ -80,7 +80,8 @@ public class AppFrame extends JFrame {
     private AutoSave autoSaver;
 
     /**
-     * Costruttore della classe AppFrame. Inizializza le proprietà principali del frame ed inizializza i componenti
+     * Costruttore della classe AppFrame. Inizializza le proprietà principali del
+     * frame ed inizializza i componenti
      * grafici.
      */
     public AppFrame(Bilancio myBudget) {
@@ -88,7 +89,6 @@ public class AppFrame extends JFrame {
         setTitle("BankMore");
         generaTransazioni(myBudget);
         initComponents(myBudget);
-        myBudget.stampaBilancio();
         autoSaver = new AutoSave(myBudget);
         autoSaver.start();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -101,7 +101,8 @@ public class AppFrame extends JFrame {
      * Metodo che inizializza e posiziona i componenti nella GUI.
      *
      * @param myBudget
-     *            Oggetto di tipo Bilancio passato alla GUI per la rappresentazione dei dati.
+     *                 Oggetto di tipo Bilancio passato alla GUI per la
+     *                 rappresentazione dei dati.
      */
     private void initComponents(Bilancio budget) {
         final Bilancio myBudget = budget;
@@ -252,7 +253,7 @@ public class AppFrame extends JFrame {
         dateChooserPanel.add(endDateChooser);
         dateChooserPanel.add(filterBtn);
         filterBtn.setAlignmentX(CENTER_ALIGNMENT);
-        FilterActionListener filterBtnListener = new FilterActionListener(myBudget, budgetTableModel, filterBtn, filter,
+        FilterActionListener filterBtnListener = new FilterActionListener(budgetTableModel, filterBtn, filter,
                 startDateChooser, endDateChooser, periodChooser);
         filterBtn.addActionListener(filterBtnListener);
 
