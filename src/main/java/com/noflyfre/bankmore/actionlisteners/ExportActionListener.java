@@ -14,17 +14,33 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import com.noflyfre.bankmore.Bilancio;
-import com.noflyfre.bankmore.VoceBilancio;
 
+import com.noflyfre.bankmore.logic.Bilancio;
+import com.noflyfre.bankmore.logic.VoceBilancio;
+
+/**
+ * Classe che gestisce l'esportazione del bilancio.
+ */
 public class ExportActionListener implements ActionListener {
 
     private Bilancio myBudget;
 
+    /**
+     * Costruttore della classe ExportActionListener.
+     *
+     * @param myBudget
+     */
     public ExportActionListener(Bilancio myBudget) {
         this.myBudget = myBudget;
     }
 
+    /**
+     * Il metodo è utilizzato per esportare il bilancio in diversi formati: CSV, Excel, e txt. Viene utilizzato un
+     * JFileChooser per selezionare il percorso dove salvare il file e il formato desiderato. Il metodo crea un oggetto
+     * Workbook per generare un file di Excel, oppure utilizza un FileWriter per generare un file CSV o di testo
+     * semplice. In base alla selezione dell'utente e al percorso selezionato, il metodo scrive i dati del bilancio nel
+     * file scelto, utilizzando una serie di istruzioni per formattare i dati appropriatamente.
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
 

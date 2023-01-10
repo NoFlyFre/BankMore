@@ -7,6 +7,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
+/**
+ * Classe che gestisce il listener per la ricerca di testo nella tabella.
+ */
 public class SearchActionListener implements ActionListener {
 
     private JTextField searchInput;
@@ -14,6 +17,18 @@ public class SearchActionListener implements ActionListener {
     private int searchRowIndex;
     private JTable tableBudget;
 
+    /**
+     * Costruttore della classe SearchActionListener.
+     *
+     * @param searchInput
+     *            field di ricerca da cui ottenere il testo da cercare
+     * @param lastSearchText
+     *            ultima stringa cercata
+     * @param searchRowIndex
+     *            indice di riga in cui è stata trovata l'ultima corrispondenza
+     * @param tableBudget
+     *            tabella in cui effetturare la ricerca
+     */
     public SearchActionListener(JTextField searchInput, String lastSearchText, int searchRowIndex, JTable tableBudget) {
         this.searchInput = searchInput;
         this.lastSearchText = lastSearchText;
@@ -21,6 +36,15 @@ public class SearchActionListener implements ActionListener {
         this.tableBudget = tableBudget;
     }
 
+    /**
+     * Metodo gestisce la ricerca nella tabella. La ricerca viene effettuata cercando la stringa specificata nel testo
+     * di input nelle celle della tabella. Se la stringa viene trovata in una cella, viene evidenziata la riga
+     * corrispondente. Se non viene trovata alcuna corrispondenza, viene mostrato un messaggio di errore. Se la stringa
+     * di ricerca cambia, la ricerca viene ripresa dall'inizio della tabella.
+     *
+     * @param e
+     *            evento di ricerca
+     */
     public void actionPerformed(ActionEvent e) {
         String searchText = searchInput.getText();
         if (!lastSearchText.equals(searchText)) {
@@ -52,12 +76,20 @@ public class SearchActionListener implements ActionListener {
             }
         }
         lastSearchText = searchText;
-        System.out.println("GetRowCount: " + tableBudget.getRowCount());
-        System.out.println("Last text: " + lastSearchText);
-        System.out.println("searchText: " + searchText);
-        System.out.println("IndexSearchRow: " + searchRowIndex + "\n");
     }
 
+    /**
+     * Metodo che itera la riga della tabella per trovare una corrispondenza.
+     *
+     * @param tableBudget
+     *            tabella in cui iterare la riga
+     * @param searchText
+     *            testo da cercare
+     * @param row
+     *            riga da iterare
+     *
+     * @return true se c'è una corrispondenza, false altrimenti
+     */
     public boolean iteraRigaTabella(JTable tableBudget, String searchText, int row) {
         for (int column = 0; column < tableBudget.getColumnCount(); column++) {
             Object cellValue = tableBudget.getValueAt(row, column);

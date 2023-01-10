@@ -9,11 +9,12 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import com.noflyfre.bankmore.Bilancio;
-import com.noflyfre.bankmore.Entrata;
-import com.noflyfre.bankmore.MyTableModel;
-import com.noflyfre.bankmore.SerializablePieDataset;
-import com.noflyfre.bankmore.Uscita;
+
+import com.noflyfre.bankmore.gui.MyTableModel;
+import com.noflyfre.bankmore.gui.SerializablePieDataset;
+import com.noflyfre.bankmore.logic.Bilancio;
+import com.noflyfre.bankmore.logic.Entrata;
+import com.noflyfre.bankmore.logic.Uscita;
 
 /**
  * Classe che gestisce l'aggiunta di una transazione al bilancio.
@@ -31,25 +32,35 @@ public class AddActionListener implements ActionListener {
     private DateTimeFormatter formatter;
     private SerializablePieDataset dataset;
     private JLabel bilancioValue;
+    private boolean filter;
 
     /**
      * Costruttore della classe.
-     * @param importoField     campo di inserimento importo da cui prendere
-     *                         l'importo
-     * @param dataField        campo di inserimento data da cui prendere la data
-     * @param descrizioneField campo di inserimento descrizione da cui prendere la
-     *                         descrizione
-     * @param myBudget         bilancio da modificare
-     * @param budgetTableModel modello da modificare
-     * @param dataAttuale      data attuale da inserire di default
-     * @param addPanel         pannello da visualizzare
-     * @param formatter        formatter di data
-     * @param dataset          dataser da aggiornare, per modificare il grafico
-     * @param bilancioValue    valore di bilancio da modificare
+     *
+     * @param importoField
+     *            campo di inserimento importo da cui prendere l'importo
+     * @param dataField
+     *            campo di inserimento data da cui prendere la data
+     * @param descrizioneField
+     *            campo di inserimento descrizione da cui prendere la descrizione
+     * @param myBudget
+     *            bilancio da modificare
+     * @param budgetTableModel
+     *            modello da modificare
+     * @param dataAttuale
+     *            data attuale da inserire di default
+     * @param addPanel
+     *            pannello da visualizzare
+     * @param formatter
+     *            formatter di data
+     * @param dataset
+     *            dataser da aggiornare, per modificare il grafico
+     * @param bilancioValue
+     *            valore di bilancio da modificare
      */
     public AddActionListener(JTextField importoField, JTextField dataField, JTextField descrizioneField,
             Bilancio myBudget, MyTableModel budgetTableModel, String dataAttuale, JPanel addPanel,
-            DateTimeFormatter formatter, SerializablePieDataset dataset, JLabel bilancioValue) {
+            DateTimeFormatter formatter, SerializablePieDataset dataset, JLabel bilancioValue, boolean filter) {
         this.importoField = importoField;
         this.dataField = dataField;
         this.descrizioneField = descrizioneField;
@@ -60,10 +71,24 @@ public class AddActionListener implements ActionListener {
         this.formatter = formatter;
         this.dataset = dataset;
         this.bilancioValue = bilancioValue;
+        this.filter = filter;
     }
 
+    /**
+     *
+     * Metodo che gestisce l'evento di clic sul bottone "Aggiungi transazione". Mostra una finestra di dialogo
+     * all'utente per l'inserimento di una nuova transazione, verifica che i dati inseriti siano corretti e se sono
+     * validi li aggiunge al bilancio. Aggiorna anche la tabella e il grafico del bilancio in seguito all'aggiunta della
+     * nuova transazione.
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
+        if (filter) {
+            return;
+        }
+        importoField.setText("");
+        dataField.setText(dataAttuale);
+        descrizioneField.setText("");
         int result = JOptionPane.showConfirmDialog(null, addPanel, "Nuova transazione", JOptionPane.OK_CANCEL_OPTION,
                 JOptionPane.PLAIN_MESSAGE);
         if (result == JOptionPane.OK_OPTION) {

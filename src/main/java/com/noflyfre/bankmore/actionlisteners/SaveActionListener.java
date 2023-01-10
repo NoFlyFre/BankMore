@@ -9,8 +9,12 @@ import java.io.ObjectOutputStream;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import com.noflyfre.bankmore.Bilancio;
 
+import com.noflyfre.bankmore.logic.Bilancio;
+
+/**
+ * Classe che gestisce il salvataggio del file.
+ */
 public class SaveActionListener implements ActionListener {
 
     private Bilancio myBudget;
@@ -19,6 +23,11 @@ public class SaveActionListener implements ActionListener {
         this.myBudget = myBudget;
     }
 
+    /**
+     * Metodo gestisce la scelta ed il salvataggio del bilancio. Apre una finestra di dialogo in cui decidere la
+     * destinazione in cui salvare il file. In caso il file esista già, chiede all'utente se vuole sovrascrivere il file
+     * selezionato.
+     */
     public void actionPerformed(ActionEvent e) {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Salva con nome");

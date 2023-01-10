@@ -10,17 +10,27 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
-import com.noflyfre.bankmore.Bilancio;
-import com.noflyfre.bankmore.MyTableModel;
-import com.noflyfre.bankmore.SerializablePieDataset;
+import com.noflyfre.bankmore.gui.MyTableModel;
+import com.noflyfre.bankmore.gui.SerializablePieDataset;
+import com.noflyfre.bankmore.logic.Bilancio;
 
+/**
+ * Classe che gestisce il caricamento di un bilancio da file.
+ */
 public class LoadActionListener implements ActionListener {
-
     private Bilancio myBudget;
     private MyTableModel budgetTableModel;
     private SerializablePieDataset dataset;
     private JLabel bilancioValue;
 
+    /**
+     * Costruttore della classe LoadActionListener.
+     *
+     * @param myBudget
+     * @param budgetTableModel
+     * @param dataset
+     * @param bilancioValue
+     */
     public LoadActionListener(Bilancio myBudget, MyTableModel budgetTableModel, SerializablePieDataset dataset,
             JLabel bilancioValue) {
         this.myBudget = myBudget;
@@ -29,6 +39,11 @@ public class LoadActionListener implements ActionListener {
         this.bilancioValue = bilancioValue;
     }
 
+    /**
+     * Metodo che gestisce il caricamento di un file. Fa scegliere all'utente il file da caricare, ed una volta
+     * selezinoato, se esiste, viene deserializzato ed importato come oggetto Bilancio. La table model viene aggiornata
+     * di conseguenza.
+     */
     public void actionPerformed(ActionEvent e) {
         Bilancio budgetCaricato = null;
         JFileChooser fileChooser = new JFileChooser();

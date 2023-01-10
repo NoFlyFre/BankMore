@@ -8,28 +8,36 @@ import java.time.ZoneOffset;
 import java.util.Date;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import com.noflyfre.bankmore.MyTableModel;
+
+import com.noflyfre.bankmore.gui.MyTableModel;
 import com.toedter.calendar.JDateChooser;
 
+/**
+ * Classe che gestisce le funzioni di selezione del periodo preimpostato.
+ */
 public class PeriodActionListener implements ActionListener {
-
-    private JComboBox periodChooser;
+    private JComboBox<String> periodChooser;
     private JDateChooser startDateChooser;
     private JDateChooser endDateChooser;
-    private boolean filter;
     private JButton filterBtn;
     private MyTableModel budgetTableModel;
 
-    public PeriodActionListener(JComboBox periodChooser, JDateChooser startDateChooser, JDateChooser endDateChooser,
-            boolean filter, JButton filterBtn, MyTableModel budgetTableModel) {
+    /**
+     * Costruttore della classe PeriodActionListener.
+     */
+    public PeriodActionListener(JComboBox<String> periodChooser, JDateChooser startDateChooser,
+            JDateChooser endDateChooser, boolean filter, JButton filterBtn, MyTableModel budgetTableModel) {
         this.periodChooser = periodChooser;
         this.startDateChooser = startDateChooser;
         this.endDateChooser = endDateChooser;
-        this.filter = filter;
         this.filterBtn = filterBtn;
         this.budgetTableModel = budgetTableModel;
     }
 
+    /**
+     * Metodo che imposta le date corrispondenti nei field di data in base alla scelta selezionata nel menù a tendina
+     * delle scelte preimpostate.
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         Object selectedItem = periodChooser.getSelectedItem();
@@ -78,15 +86,15 @@ public class PeriodActionListener implements ActionListener {
             // Imposta la data di fine al giorno di oggi
             endDateChooser.setDate(null);
 
-            // Disattiva il filtro
-            filter = false;
             filterBtn.setText("Filtra");
             budgetTableModel.resetTableData();
         }
     }
 
+    /**
+     * Metodo che attiva il filtro di periodo.
+     */
     private void activeFilter() {
-        filter = true;
         filterBtn.setText("Reset");
         budgetTableModel.filtraVoci(startDateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
                 endDateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
