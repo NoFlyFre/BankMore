@@ -43,8 +43,7 @@ public class AutoSave {
     private void saveBudget() {
         String now = LocalDateTime.now().toString();
         String formattedDate = now.substring(0, 4) + now.substring(5, 7) + now.substring(8, 10);
-        String formattedTime = now.substring(11, 13);
-                + now.substring(14, 16);
+        String formattedTime = now.substring(11, 13) + now.substring(14, 16);
         String fileName = "AutoSave_" + formattedDate + "_" + formattedTime;
         File fileToSave = new File(fileName);
         try (ObjectOutputStream out = new ObjectOutputStream(
