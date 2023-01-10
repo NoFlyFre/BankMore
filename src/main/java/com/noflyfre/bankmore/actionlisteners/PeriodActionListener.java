@@ -95,7 +95,20 @@ public class PeriodActionListener implements ActionListener {
                     resetFilter();
                 }
                 // Imposta la data di inizio al giorno di un giorno fa
-                startDateChooser.setDate(Date.from(dataAttuale.minusDays(1).atStartOfDay().toInstant(ZoneOffset.UTC)));
+                startDateChooser.setDate(Date.from(dataAttuale.minusWeeks(1).atStartOfDay().toInstant(ZoneOffset.UTC)));
+
+                // Imposta la data di fine al giorno di oggi
+                endDateChooser.setDate(Date.from(dataAttuale.atStartOfDay().toInstant(ZoneOffset.UTC)));
+
+                // Attiva il filtro
+                activeFilter();
+                break;
+            case 4:
+                if (filter.getFilter()) {
+                    resetFilter();
+                }
+                // Imposta la data di inizio al giorno di un giorno fa
+                startDateChooser.setDate(Date.from(dataAttuale.atStartOfDay().toInstant(ZoneOffset.UTC)));
 
                 // Imposta la data di fine al giorno di oggi
                 endDateChooser.setDate(Date.from(dataAttuale.atStartOfDay().toInstant(ZoneOffset.UTC)));
