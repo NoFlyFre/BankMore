@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"com.noflyfre.bankmore"},{"l":"com.noflyfre.bankmore.actionlisteners"}];updateSearchResults();

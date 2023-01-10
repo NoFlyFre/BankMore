@@ -10,7 +10,6 @@ import com.noflyfre.bankmore.logic.Bilancio;
 import com.noflyfre.bankmore.logic.Uscita;
 import com.noflyfre.bankmore.logic.VoceBilancio;
 
-
 /**
  * Classe che definisce il modello della tabella.
  */

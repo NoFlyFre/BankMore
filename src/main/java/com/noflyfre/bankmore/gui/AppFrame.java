@@ -253,7 +253,7 @@ public class AppFrame extends JFrame {
         dateChooserPanel.add(filterBtn);
         filterBtn.setAlignmentX(CENTER_ALIGNMENT);
         FilterActionListener filterBtnListener = new FilterActionListener(myBudget, budgetTableModel, filterBtn, filter,
-                startDateChooser, endDateChooser,periodChooser);
+                startDateChooser, endDateChooser, periodChooser);
         filterBtn.addActionListener(filterBtnListener);
 
         tableBtnsPanel.add(addBtn);

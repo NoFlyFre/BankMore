@@ -65,20 +65,13 @@ public class ModActionListener implements ActionListener {
     }
 
     /**
-     * Il metodo actionPerformed viene chiamato quando viene selezionato l'elemento
-     * associato alla classe che implementa
-     * l'interfaccia ActionListener e viene utilizzato per modificare una
-     * transazione presente nella tabella
-     * tableBudget. Se l'utente seleziona una riga della tabella, i campi
-     * importoField, dataField e descrizioneField
-     * vengono impostati con i valori della transazione selezionata. Viene quindi
-     * visualizzata una finestra di conferma
-     * per richiedere all'utente di confermare la modifica della transazione. Se
-     * l'utente conferma la modifica, viene
-     * aggiornata la transazione nella tabella e nel dataset della tabella, e viene
-     * aggiornato il valore del bilancio
-     * visualizzato. Se l'utente non conferma la modifica o se non è stata
-     * selezionata alcuna riga della tabella, non
+     * Il metodo actionPerformed viene chiamato quando viene selezionato l'elemento associato alla classe che implementa
+     * l'interfaccia ActionListener e viene utilizzato per modificare una transazione presente nella tabella
+     * tableBudget. Se l'utente seleziona una riga della tabella, i campi importoField, dataField e descrizioneField
+     * vengono impostati con i valori della transazione selezionata. Viene quindi visualizzata una finestra di conferma
+     * per richiedere all'utente di confermare la modifica della transazione. Se l'utente conferma la modifica, viene
+     * aggiornata la transazione nella tabella e nel dataset della tabella, e viene aggiornato il valore del bilancio
+     * visualizzato. Se l'utente non conferma la modifica o se non è stata selezionata alcuna riga della tabella, non
      * viene effettuata alcuna modifica.
      */
     @Override
@@ -86,7 +79,8 @@ public class ModActionListener implements ActionListener {
         if (filter) {
             return;
         }
-        VoceBilancio voceSelezionata = budgetTableModel.getDati().get(budgetTableModel.getRowCount() - tableBudget.getSelectedRow() - 2);
+        VoceBilancio voceSelezionata = budgetTableModel.getDati()
+                .get(budgetTableModel.getRowCount() - tableBudget.getSelectedRow() - 2);
         if (tableBudget.getSelectedRow() != tableBudget.getRowCount() - 1) {
             if (voceSelezionata instanceof Uscita) {
                 importoField.setText("-" + Objects.toString(tableBudget.getValueAt(tableBudget.getSelectedRow(), 1))
