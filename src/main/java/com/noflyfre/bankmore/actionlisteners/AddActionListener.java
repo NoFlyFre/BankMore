@@ -14,6 +14,7 @@ import com.noflyfre.bankmore.gui.MyTableModel;
 import com.noflyfre.bankmore.gui.SerializablePieDataset;
 import com.noflyfre.bankmore.logic.Bilancio;
 import com.noflyfre.bankmore.logic.Entrata;
+import com.noflyfre.bankmore.logic.FilterWrapper;
 import com.noflyfre.bankmore.logic.Uscita;
 
 /**
@@ -32,7 +33,7 @@ public class AddActionListener implements ActionListener {
     private DateTimeFormatter formatter;
     private SerializablePieDataset dataset;
     private JLabel bilancioValue;
-    private boolean filter;
+    private FilterWrapper filter;
 
     /**
      * Costruttore della classe.
@@ -62,7 +63,7 @@ public class AddActionListener implements ActionListener {
      */
     public AddActionListener(JTextField importoField, JTextField dataField, JTextField descrizioneField,
             Bilancio myBudget, MyTableModel budgetTableModel, String dataAttuale, JPanel addPanel,
-            DateTimeFormatter formatter, SerializablePieDataset dataset, JLabel bilancioValue, boolean filter) {
+            DateTimeFormatter formatter, SerializablePieDataset dataset, JLabel bilancioValue, FilterWrapper filter) {
         this.importoField = importoField;
         this.dataField = dataField;
         this.descrizioneField = descrizioneField;
@@ -88,8 +89,7 @@ public class AddActionListener implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println(filter);
-        if (!filter) {
+        if (!filter.getFilter()) {
             importoField.setText("");
             dataField.setText(dataAttuale);
             descrizioneField.setText("");

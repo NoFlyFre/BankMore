@@ -38,6 +38,7 @@ import com.noflyfre.bankmore.actionlisteners.SearchActionListener;
 import com.noflyfre.bankmore.logic.AutoSave;
 import com.noflyfre.bankmore.logic.Bilancio;
 import com.noflyfre.bankmore.logic.Entrata;
+import com.noflyfre.bankmore.logic.FilterWrapper;
 import com.noflyfre.bankmore.logic.Uscita;
 import com.toedter.calendar.JDateChooser;
 
@@ -75,7 +76,7 @@ public class AppFrame extends JFrame {
 
     private int searchRowIndex = -1;
     private String lastSearchText = "";
-    private boolean filter;
+    private FilterWrapper filter = new FilterWrapper();
 
     private AutoSave autoSaver;
 
@@ -256,7 +257,7 @@ public class AppFrame extends JFrame {
         FilterActionListener filterBtnListener = new FilterActionListener(budgetTableModel, filterBtn, filter,
                 startDateChooser, endDateChooser, periodChooser);
         filterBtn.addActionListener(filterBtnListener);
-        
+
         tableBtnsPanel.add(addBtn);
         tableBtnsPanel.add(modBtn);
         tableBtnsPanel.add(delBtn);

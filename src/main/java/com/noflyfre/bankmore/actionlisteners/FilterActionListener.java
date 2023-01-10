@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.time.ZoneId;
 
 import com.noflyfre.bankmore.gui.MyTableModel;
+import com.noflyfre.bankmore.logic.FilterWrapper;
 import com.toedter.calendar.JDateChooser;
 
 /**
@@ -17,7 +18,7 @@ public class FilterActionListener implements ActionListener {
 
     private MyTableModel budgetTableModel;
     private JButton filterBtn;
-    private Boolean filter;
+    private FilterWrapper filter;
     private JDateChooser startDateChooser;
     private JDateChooser endDateChooser;
     private JComboBox<String> periodChooser;
@@ -25,7 +26,7 @@ public class FilterActionListener implements ActionListener {
     /**
      * Costruttore della classe FilterActionListener.
      */
-    public FilterActionListener(MyTableModel budgetTableModel, JButton filterBtn, Boolean filter,
+    public FilterActionListener(MyTableModel budgetTableModel, JButton filterBtn, FilterWrapper filter,
             JDateChooser startDateChooser, JDateChooser endDateChooser, JComboBox<String> periodChooser) {
         this.budgetTableModel = budgetTableModel;
         this.filterBtn = filterBtn;
@@ -49,15 +50,16 @@ public class FilterActionListener implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (!filter) {
+        if (!filter.getFilter()) {
+            budgetTableModel.resetTableData();
             filterBtn.setText("Reset");
-            filter = true;
+            filter.setFilter(true);
             budgetTableModel.filtraVoci(
                     startDateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
                     endDateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
         } else {
             filterBtn.setText("Filtra");
-            filter = false;
+            filter.setFilter(false);
             periodChooser.setSelectedIndex(0);
             budgetTableModel.resetTableData();
             startDateChooser.setDate(null);

@@ -140,8 +140,8 @@ public class MyTableModel extends AbstractTableModel {
      */
     public void filtraVoci(LocalDate dataInizio, LocalDate dataFine) {
         for (VoceBilancio voce : dati) {
-            if (voce.getData().isAfter(dataInizio) && voce.getData().isBefore(dataFine)
-                    || voce.getData().equals(dataInizio) || voce.getData().equals(dataFine)) {
+            if ((voce.getData().isAfter(dataInizio) || voce.getData().equals(dataInizio)) && (voce.getData().isBefore(dataFine)
+                     || voce.getData().equals(dataFine))) {
                 vociDaMostrare.add(voce);
             }
         }

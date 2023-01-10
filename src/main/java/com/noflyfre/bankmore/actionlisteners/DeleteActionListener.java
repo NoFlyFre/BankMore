@@ -8,6 +8,7 @@ import javax.swing.JTable;
 import com.noflyfre.bankmore.gui.MyTableModel;
 import com.noflyfre.bankmore.gui.SerializablePieDataset;
 import com.noflyfre.bankmore.logic.Bilancio;
+import com.noflyfre.bankmore.logic.FilterWrapper;
 
 /**
  * Classe che gestisce il listener per eliminare una voce dal bilancio.
@@ -18,7 +19,7 @@ public class DeleteActionListener implements ActionListener {
     private MyTableModel budgetTableModel;
     private SerializablePieDataset dataset;
     private JLabel bilancioValue;
-    private boolean filter;
+    private FilterWrapper filter;
 
     /**
      * Costruttore della classe.
@@ -35,7 +36,7 @@ public class DeleteActionListener implements ActionListener {
      *            valore bilancio da modificare
      */
     public DeleteActionListener(JTable tableBudget, Bilancio myBudget, MyTableModel budgetTableModel,
-            SerializablePieDataset dataset, JLabel bilancioValue, boolean filter) {
+            SerializablePieDataset dataset, JLabel bilancioValue, FilterWrapper filter) {
         this.tableBudget = tableBudget;
         this.myBudget = myBudget;
         this.budgetTableModel = budgetTableModel;
@@ -49,7 +50,7 @@ public class DeleteActionListener implements ActionListener {
      * dal bilancio, ed oltre a ciò, aggiorna la tabella, i dataset per il grafico, ed il valore del bilancio nella GUI.
      */
     public void actionPerformed(ActionEvent e) {
-        if (filter) {
+        if (filter.getFilter()) {
             return;
         }
         /**

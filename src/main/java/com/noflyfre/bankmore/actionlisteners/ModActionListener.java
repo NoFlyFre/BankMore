@@ -15,6 +15,7 @@ import com.noflyfre.bankmore.gui.MyTableModel;
 import com.noflyfre.bankmore.gui.SerializablePieDataset;
 import com.noflyfre.bankmore.logic.Bilancio;
 import com.noflyfre.bankmore.logic.Entrata;
+import com.noflyfre.bankmore.logic.FilterWrapper;
 import com.noflyfre.bankmore.logic.Uscita;
 import com.noflyfre.bankmore.logic.VoceBilancio;
 
@@ -32,7 +33,7 @@ public class ModActionListener implements ActionListener {
     private MyTableModel budgetTableModel;
     private SerializablePieDataset dataset;
     private JLabel bilancioValue;
-    private boolean filter;
+    private FilterWrapper filter;
 
     /**
      * Costruttore della classe ModActionListener.
@@ -50,7 +51,7 @@ public class ModActionListener implements ActionListener {
      */
     public ModActionListener(JTable tableBudget, JTextField importoField, JTextField dataField,
             JTextField descrizioneField, JPanel addPanel, DateTimeFormatter formatter, Bilancio myBudget,
-            MyTableModel budgetTableModel, SerializablePieDataset dataset, JLabel bilancioValue, boolean filter) {
+            MyTableModel budgetTableModel, SerializablePieDataset dataset, JLabel bilancioValue, FilterWrapper filter) {
         this.tableBudget = tableBudget;
         this.importoField = importoField;
         this.dataField = dataField;
@@ -76,7 +77,7 @@ public class ModActionListener implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (filter) {
+        if (filter.getFilter()) {
             return;
         }
         VoceBilancio voceSelezionata = budgetTableModel.getDati()
