@@ -20,5 +20,3 @@ Il codice sorgente del progetto è disponibile su [GitHub](https://github.com/No
 Per compilare e lanciare l'applicazione:
 `mvn clean install`
 `mvn exec:java`
-
-Nota: si suppone che sia stato installato Maven, se non è cosi dovrai installarlo e configurarlo.
